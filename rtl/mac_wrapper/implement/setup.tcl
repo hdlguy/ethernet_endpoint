@@ -28,6 +28,8 @@ read_verilog -sv ../axis_fifo.sv
 read_verilog -sv ../mac_wrapper.sv
 read_verilog -sv ../mac_wrapper_top.sv
 
+read_xdc ../mac_wrapper_top.xdc
+
 close_project
 
 #########################
