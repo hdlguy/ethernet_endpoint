@@ -16,16 +16,16 @@ module mac_wrapper (
     // tx into mac - make an interface
     output  logic       tx_clk,
     output  logic       tx_rst,
-    input   logic[7:0]  tx_axis_tdata,
-    input   logic       tx_axis_tvalid,
-    output  logic       tx_axis_tready,
-    input   logic       tx_axis_tlast,
+    input   logic[7:0]  tx_tdata,
+    input   logic       tx_tvalid,
+    output  logic       tx_tready,
+    input   logic       tx_tlast,
     // rx from mac - make an interface
     output  logic       rx_clk,
     output  logic       rx_rst,
-    output  logic[7:0]  rx_axis_tdata,
-    output  logic       rx_axis_tvalid,
-    output  logic       rx_axis_tlast
+    output  logic[7:0]  rx_tdata,
+    output  logic       rx_tvalid,
+    output  logic       rx_tlast
 );
 
     logic       gtx_clk;
@@ -61,17 +61,17 @@ module mac_wrapper (
         // tx
         .tx_rst             (tx_rst),
         .tx_clk             (tx_clk),
-        .tx_axis_tdata      (tx_axis_tdata),
-        .tx_axis_tvalid     (tx_axis_tvalid),
-        .tx_axis_tready     (tx_axis_tready),
-        .tx_axis_tlast      (tx_axis_tlast),
+        .tx_axis_tdata      (tx_tdata),
+        .tx_axis_tvalid     (tx_tvalid),
+        .tx_axis_tready     (tx_tready),
+        .tx_axis_tlast      (tx_tlast),
         .tx_axis_tuser      (0),
         // rx
         .rx_rst             (rx_rst),
         .rx_clk             (rx_clk),
-        .rx_axis_tdata      (rx_axis_tdata),
-        .rx_axis_tvalid     (rx_axis_tvalid),
-        .rx_axis_tlast      (rx_axis_tlast),
+        .rx_axis_tdata      (rx_tdata),
+        .rx_axis_tvalid     (rx_tvalid),
+        .rx_axis_tlast      (rx_tlast),
         .rx_axis_tuser      (),
         // status
         .tx_error_underflow (tx_error_underflow),

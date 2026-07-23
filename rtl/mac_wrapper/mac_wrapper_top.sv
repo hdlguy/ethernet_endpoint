@@ -16,16 +16,16 @@ module mac_wrapper_top (
 
     logic       tx_rst;
     logic       tx_clk;
-    logic[7:0]  tx_axis_tdata=0;
-    logic       tx_axis_tvalid=0;
-    logic       tx_axis_tready;
-    logic       tx_axis_tlast;
+    logic[7:0]  tx_tdata=0;
+    logic       tx_tvalid=0;
+    logic       tx_tready;
+    logic       tx_tlast;
 
     logic       rx_rst;
     logic       rx_clk;
-    logic[7:0]  rx_axis_tdata;
-    logic       rx_axis_tvalid;
-    logic       rx_axis_tlast;
+    logic[7:0]  rx_tdata;
+    logic       rx_tvalid;
+    logic       rx_tlast;
     
     mac_wrapper uut (
         //
@@ -44,16 +44,16 @@ module mac_wrapper_top (
         //
         .tx_rst             (tx_rst),
         .tx_clk             (tx_clk),
-        .tx_axis_tdata      (tx_axis_tdata),
-        .tx_axis_tvalid     (tx_axis_tvalid),
-        .tx_axis_tready     (tx_axis_tready),
-        .tx_axis_tlast      (tx_axis_tlast),
+        .tx_tdata      (tx_tdata),
+        .tx_tvalid     (tx_tvalid),
+        .tx_tready     (tx_tready),
+        .tx_tlast      (tx_tlast),
         //
         .rx_rst             (rx_rst),
         .rx_clk             (rx_clk),
-        .rx_axis_tdata      (rx_axis_tdata),
-        .rx_axis_tvalid     (rx_axis_tvalid),
-        .rx_axis_tlast      (rx_axis_tlast)
+        .rx_tdata      (rx_tdata),
+        .rx_tvalid     (rx_tvalid),
+        .rx_tlast      (rx_tlast)
     );
     
     
@@ -61,20 +61,20 @@ module mac_wrapper_top (
     axis_fifo #(
         .width(8),
         .depth(4096)
-    ) 
-    fifo_inst (
+    ) fifo_inst (
         //
-        .s_clk      (rx_clk),
-        .s_tvalid   (rx_axis_tvalid),
+        .s_aresetn  (~rx_rst),
+        .s_aclk     (rx_clk),
+        .s_tvalid   (rx_tvalid),
         .s_tready   (),
-        .s_tdata    (rx_axis_tdata),
-        .s_tlast    (rx_axis_tlast),
+        .s_tdata    (rx_tdata),
+        .s_tlast    (rx_tlast),
         //
-        .m_clk      (tx_clk),
-        .m_tvalid   (tx_axis_tvalid),
-        .m_tready   (tx_axis_tready),
-        .m_tdata    (tx_axis_tdata),
-        .m_tlast    (tx_axis_tlast)
+        .m_aclk     (tx_clk),
+        .m_tvalid   (tx_tvalid),
+        .m_tready   (tx_tready),
+        .m_tdata    (tx_tdata),
+        .m_tlast    (tx_tlast)
     );
 
 endmodule

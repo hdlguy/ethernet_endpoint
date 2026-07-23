@@ -12,12 +12,12 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="3,000.001 ns"></ZoomEndTime>
+      <ZoomEndTime time="2,000.001 ns"></ZoomEndTime>
       <Cursor1Time time="0.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="276"></NameColumnWidth>
-      <ValueColumnWidth column_width="120"></ValueColumnWidth>
+      <ValueColumnWidth column_width="116"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="38" />
    <wvobject type="logic" fp_name="/mac_wrapper_tb/clk">
@@ -88,27 +88,27 @@
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/tx_axis_tvalid">
-      <obj_property name="ElementShortName">tx_axis_tvalid</obj_property>
-      <obj_property name="ObjectShortName">tx_axis_tvalid</obj_property>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/tx_tdata">
+      <obj_property name="ElementShortName">tx_tdata[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tx_tdata[7:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/tx_axis_tready">
-      <obj_property name="ElementShortName">tx_axis_tready</obj_property>
-      <obj_property name="ObjectShortName">tx_axis_tready</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/tx_tvalid">
+      <obj_property name="ElementShortName">tx_tvalid</obj_property>
+      <obj_property name="ObjectShortName">tx_tvalid</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/mac_wrapper_tb/tx_axis_tdata">
-      <obj_property name="ElementShortName">tx_axis_tdata[7:0]</obj_property>
-      <obj_property name="ObjectShortName">tx_axis_tdata[7:0]</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/tx_tready">
+      <obj_property name="ElementShortName">tx_tready</obj_property>
+      <obj_property name="ObjectShortName">tx_tready</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/tx_axis_tlast">
-      <obj_property name="ElementShortName">tx_axis_tlast</obj_property>
-      <obj_property name="ObjectShortName">tx_axis_tlast</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/tx_tlast">
+      <obj_property name="ElementShortName">tx_tlast</obj_property>
+      <obj_property name="ObjectShortName">tx_tlast</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
@@ -124,21 +124,21 @@
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/rx_axis_tvalid">
-      <obj_property name="ElementShortName">rx_axis_tvalid</obj_property>
-      <obj_property name="ObjectShortName">rx_axis_tvalid</obj_property>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/rx_tdata">
+      <obj_property name="ElementShortName">rx_tdata[7:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_tdata[7:0]</obj_property>
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/mac_wrapper_tb/rx_axis_tdata">
-      <obj_property name="ElementShortName">rx_axis_tdata[7:0]</obj_property>
-      <obj_property name="ObjectShortName">rx_axis_tdata[7:0]</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/rx_tvalid">
+      <obj_property name="ElementShortName">rx_tvalid</obj_property>
+      <obj_property name="ObjectShortName">rx_tvalid</obj_property>
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/rx_axis_tlast">
-      <obj_property name="ElementShortName">rx_axis_tlast</obj_property>
-      <obj_property name="ObjectShortName">rx_axis_tlast</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/rx_tlast">
+      <obj_property name="ElementShortName">rx_tlast</obj_property>
+      <obj_property name="ObjectShortName">rx_tlast</obj_property>
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>

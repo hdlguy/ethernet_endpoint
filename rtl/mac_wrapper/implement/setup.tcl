@@ -2,7 +2,7 @@
 close_project -quiet
 file delete -force proj.xpr *.os *.jou *.log proj.srcs proj.cache proj.runs
 #
-create_project -part xc7a100tcsg324-2 -force proj
+create_project -part xczu2cg-sfvc784-1-e -force proj
 set_property target_language Verilog [current_project]
 set_property default_lib work [current_project]
 
@@ -24,6 +24,7 @@ read_verilog ../../../third_party/verilog-ethernet/rtl/eth_mac_1g_rgmii.v
 read_verilog ../../../third_party/verilog-ethernet/rtl/rgmii_phy_if.v
 read_verilog ../../../third_party/verilog-ethernet/rtl/eth_mac_1g.v
 
+read_verilog -sv ../axis_fifo.sv
 read_verilog -sv ../mac_wrapper.sv
 read_verilog -sv ../mac_wrapper_top.sv
 
