@@ -13,6 +13,7 @@ module mac_wrapper (
     output  logic       rgmii_tx_clk,
     output  logic[3:0]  rgmii_txd,
     output  logic       rgmii_tx_ctl,
+    output  logic       rgmii_reset_n,
     // tx into mac - make an interface
     output  logic       tx_clk,
     output  logic       tx_rst,
@@ -192,6 +193,7 @@ module mac_wrapper (
     always_ff @(posedge gtx_clk) begin
         gtx_rst <= ~mmcm_locked;
     end
+    assign rgmii_reset_n = mmcm_locked;
     
 
 endmodule

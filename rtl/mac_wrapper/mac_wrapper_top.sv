@@ -8,8 +8,16 @@ module mac_wrapper_top (
     input   logic       rgmii_rx_ctl,
     output  logic       rgmii_tx_clk,
     output  logic[3:0]  rgmii_txd,
-    output  logic       rgmii_tx_ctl
+    output  logic       rgmii_tx_ctl,    
+    output  logic       rgmii_reset_n,
+    output  logic       rgmii_mdio_clock,
+    output  logic       rgmii_mdio_data,
+    //
+    output  logic       user_led
 );
+
+    assign rgmii_mdio_clock = 1'bz;
+    assign rgmii_mdio_data  = 1'bz;
 
     logic       refclk200;
     logic       userclk125;
@@ -41,19 +49,20 @@ module mac_wrapper_top (
         .rgmii_tx_clk       (rgmii_tx_clk),
         .rgmii_txd          (rgmii_txd),
         .rgmii_tx_ctl       (rgmii_tx_ctl),
+        .rgmii_reset_n      (rgmii_reset_n),
         //
         .tx_rst             (tx_rst),
         .tx_clk             (tx_clk),
-        .tx_tdata      (tx_tdata),
-        .tx_tvalid     (tx_tvalid),
-        .tx_tready     (tx_tready),
-        .tx_tlast      (tx_tlast),
+        .tx_tdata           (tx_tdata),
+        .tx_tvalid          (tx_tvalid),
+        .tx_tready          (tx_tready),
+        .tx_tlast           (tx_tlast),
         //
         .rx_rst             (rx_rst),
         .rx_clk             (rx_clk),
-        .rx_tdata      (rx_tdata),
-        .rx_tvalid     (rx_tvalid),
-        .rx_tlast      (rx_tlast)
+        .rx_tdata           (rx_tdata),
+        .rx_tvalid          (rx_tvalid),
+        .rx_tlast           (rx_tlast)
     );
     
     
@@ -76,5 +85,15 @@ module mac_wrapper_top (
         .m_tdata    (tx_tdata),
         .m_tlast    (tx_tlast)
     );
+
+    // flash the LED
+    logic[26:0] led_count=0;
+    always_ff @(posedge userclk125) begin
+        led_count <= led_count + 1;
+        user_led  <= led_count[26];
+    end
+    
+    // debug
+    mac_ila ila_inst (.clk(userclk125), .probe0({tx_rst, tx_tdata, tx_tvalid, tx_tready, tx_tlast, rx_rst, rx_tdata, rx_tvalid, rx_tlast})); // 23
 
 endmodule
