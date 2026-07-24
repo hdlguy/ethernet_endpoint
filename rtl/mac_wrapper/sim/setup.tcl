@@ -24,9 +24,8 @@ read_verilog ../../../third_party/verilog-ethernet/rtl/eth_mac_1g_rgmii.v
 read_verilog ../../../third_party/verilog-ethernet/rtl/rgmii_phy_if.v
 read_verilog ../../../third_party/verilog-ethernet/rtl/eth_mac_1g.v
 
-
-
 read_verilog -sv ../mac_wrapper.sv
+read_verilog -sv ../raw_frame_gen.sv
 read_verilog -sv ../mac_wrapper_tb.sv
 
 add_files -fileset sim_1 -norecurse ./mac_wrapper_tb_behav.wcfg

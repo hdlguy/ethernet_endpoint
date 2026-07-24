@@ -15,6 +15,7 @@ module mac_wrapper_tb ();
     logic       rgmii_tx_clk;
     logic[3:0]  rgmii_txd;
     logic       rgmii_tx_ctl;
+    logic       rgmii_reset_n;
     
     logic       tx_rst;
     logic       tx_clk;
@@ -40,22 +41,39 @@ module mac_wrapper_tb ();
     assign rgmii_rxd    = rgmii_txd;
 
     mac_wrapper uut (.*);
+
+    localparam int Lframe = 64;
+    raw_frame_gen #(.Lframe(Lframe)) gen_inst (.reset(tx_rst), .clk(tx_clk), .tvalid(tx_tvalid), .tready(tx_tready), .tdata(tx_tdata), .tlast(tx_tlast));
     
-    localparam int Nframe = 64;
-    always_ff @(posedge tx_clk) begin
-        
-        if (tx_rst) begin
-            tx_tvalid <= 0;
-            tx_tdata <= 0;
-        end else begin            
-            tx_tvalid <= 1;
-            if ((tx_tvalid==1) && (tx_tready==1)) tx_tdata <= tx_tdata + 1;
-        end
-        
-    end
-    
-    assign tx_tlast  = (tx_tdata%Nframe == (Nframe-1)) ? 1'b1 : 1'b0;
+endmodule
+
+//    localparam int Lframe = 64;
+//    always_ff @(posedge tx_clk) begin
+//        
+//        if (tx_rst) begin
+//            tx_tvalid <= 0;
+//            tx_tdata <= 0;
+//        end else begin            
+//            tx_tvalid <= 1;
+//            if ((tx_tvalid==1) && (tx_tready==1)) tx_tdata <= tx_tdata + 1;
+//        end
+//        
+//    end
+//    
+//    assign tx_tlast  = (tx_tdata%Nframe == (Nframe-1)) ? 1'b1 : 1'b0;
 			
 
 
-endmodule
+
+/*
+module raw_frame_gen #(
+    parameter int Lframe = 64 // length of frame
+) (
+    input   logic       reset,
+    input   logic       clk,
+    output  logic       tvalid,
+    input   logic       tready,
+    output  logic[7:0]  tdata,
+    output  logic       tlast
+);
+*/
