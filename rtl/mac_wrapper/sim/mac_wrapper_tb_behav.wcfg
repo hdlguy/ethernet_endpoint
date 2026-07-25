@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="5,000.001 ns"></ZoomEndTime>
-      <Cursor1Time time="0.000 ns"></Cursor1Time>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="205.000000 us"></ZoomEndTime>
+      <Cursor1Time time="0.000000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="276"></NameColumnWidth>
-      <ValueColumnWidth column_width="112"></ValueColumnWidth>
+      <ValueColumnWidth column_width="108"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="38" />
+   <WVObjectSize size="57" />
    <wvobject type="logic" fp_name="/mac_wrapper_tb/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -32,13 +32,13 @@
       <obj_property name="ElementShortName">clkin200_n</obj_property>
       <obj_property name="ObjectShortName">clkin200_n</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/refclk200">
-      <obj_property name="ElementShortName">refclk200</obj_property>
-      <obj_property name="ObjectShortName">refclk200</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/user_clk">
+      <obj_property name="ElementShortName">user_clk</obj_property>
+      <obj_property name="ObjectShortName">user_clk</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/userclk125">
-      <obj_property name="ElementShortName">userclk125</obj_property>
-      <obj_property name="ObjectShortName">userclk125</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/user_reset">
+      <obj_property name="ElementShortName">user_reset</obj_property>
+      <obj_property name="ObjectShortName">user_reset</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/mac_wrapper_tb/rgmii_rx_clk">
       <obj_property name="ElementShortName">rgmii_rx_clk</obj_property>
@@ -76,12 +76,6 @@
       <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/tx_rst">
-      <obj_property name="ElementShortName">tx_rst</obj_property>
-      <obj_property name="ObjectShortName">tx_rst</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/mac_wrapper_tb/tx_clk">
       <obj_property name="ElementShortName">tx_clk</obj_property>
       <obj_property name="ObjectShortName">tx_clk</obj_property>
@@ -110,12 +104,6 @@
       <obj_property name="ElementShortName">tx_tlast</obj_property>
       <obj_property name="ObjectShortName">tx_tlast</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/rx_rst">
-      <obj_property name="ElementShortName">rx_rst</obj_property>
-      <obj_property name="ObjectShortName">rx_rst</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/mac_wrapper_tb/rx_clk">
@@ -181,6 +169,50 @@
       <obj_property name="ElementShortName">tx_error_underflow</obj_property>
       <obj_property name="ObjectShortName">tx_error_underflow</obj_property>
    </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_tx_clk">
+      <obj_property name="ElementShortName">mac_tx_clk</obj_property>
+      <obj_property name="ObjectShortName">mac_tx_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_tx_rst">
+      <obj_property name="ElementShortName">mac_tx_rst</obj_property>
+      <obj_property name="ObjectShortName">mac_tx_rst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_tx_tvalid">
+      <obj_property name="ElementShortName">mac_tx_tvalid</obj_property>
+      <obj_property name="ObjectShortName">mac_tx_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_tx_tready">
+      <obj_property name="ElementShortName">mac_tx_tready</obj_property>
+      <obj_property name="ObjectShortName">mac_tx_tready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_tx_tdata">
+      <obj_property name="ElementShortName">mac_tx_tdata[7:0]</obj_property>
+      <obj_property name="ObjectShortName">mac_tx_tdata[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_tx_tlast">
+      <obj_property name="ElementShortName">mac_tx_tlast</obj_property>
+      <obj_property name="ObjectShortName">mac_tx_tlast</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_rx_clk">
+      <obj_property name="ElementShortName">mac_rx_clk</obj_property>
+      <obj_property name="ObjectShortName">mac_rx_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_rx_rst">
+      <obj_property name="ElementShortName">mac_rx_rst</obj_property>
+      <obj_property name="ObjectShortName">mac_rx_rst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_rx_tvalid">
+      <obj_property name="ElementShortName">mac_rx_tvalid</obj_property>
+      <obj_property name="ObjectShortName">mac_rx_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_rx_tdata">
+      <obj_property name="ElementShortName">mac_rx_tdata[7:0]</obj_property>
+      <obj_property name="ObjectShortName">mac_rx_tdata[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_rx_tlast">
+      <obj_property name="ElementShortName">mac_rx_tlast</obj_property>
+      <obj_property name="ObjectShortName">mac_rx_tlast</obj_property>
+   </wvobject>
    <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rx_error_bad_frame">
       <obj_property name="ElementShortName">rx_error_bad_frame</obj_property>
       <obj_property name="ObjectShortName">rx_error_bad_frame</obj_property>
@@ -195,16 +227,56 @@
    </wvobject>
    <wvobject fp_name="divider60" type="divider">
    </wvobject>
-   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/cfg_ifg">
-      <obj_property name="ElementShortName">cfg_ifg[7:0]</obj_property>
-      <obj_property name="ObjectShortName">cfg_ifg[7:0]</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/s_aresetn">
+      <obj_property name="ElementShortName">s_aresetn</obj_property>
+      <obj_property name="ObjectShortName">s_aresetn</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/cfg_tx_enable">
-      <obj_property name="ElementShortName">cfg_tx_enable</obj_property>
-      <obj_property name="ObjectShortName">cfg_tx_enable</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/s_aclk">
+      <obj_property name="ElementShortName">s_aclk</obj_property>
+      <obj_property name="ObjectShortName">s_aclk</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/cfg_rx_enable">
-      <obj_property name="ElementShortName">cfg_rx_enable</obj_property>
-      <obj_property name="ObjectShortName">cfg_rx_enable</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/s_tvalid">
+      <obj_property name="ElementShortName">s_tvalid</obj_property>
+      <obj_property name="ObjectShortName">s_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/s_tready">
+      <obj_property name="ElementShortName">s_tready</obj_property>
+      <obj_property name="ObjectShortName">s_tready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/s_tdata">
+      <obj_property name="ElementShortName">s_tdata[7:0]</obj_property>
+      <obj_property name="ObjectShortName">s_tdata[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/s_tlast">
+      <obj_property name="ElementShortName">s_tlast</obj_property>
+      <obj_property name="ObjectShortName">s_tlast</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/m_aclk">
+      <obj_property name="ElementShortName">m_aclk</obj_property>
+      <obj_property name="ObjectShortName">m_aclk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/m_tvalid">
+      <obj_property name="ElementShortName">m_tvalid</obj_property>
+      <obj_property name="ObjectShortName">m_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/m_tready">
+      <obj_property name="ElementShortName">m_tready</obj_property>
+      <obj_property name="ObjectShortName">m_tready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/m_tdata">
+      <obj_property name="ElementShortName">m_tdata[7:0]</obj_property>
+      <obj_property name="ObjectShortName">m_tdata[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/m_tlast">
+      <obj_property name="ElementShortName">m_tlast</obj_property>
+      <obj_property name="ObjectShortName">m_tlast</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/width">
+      <obj_property name="ElementShortName">width[31:0]</obj_property>
+      <obj_property name="ObjectShortName">width[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/rx_fifo_inst/depth">
+      <obj_property name="ElementShortName">depth[31:0]</obj_property>
+      <obj_property name="ObjectShortName">depth[31:0]</obj_property>
    </wvobject>
 </wave_config>

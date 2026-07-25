@@ -24,6 +24,7 @@ read_verilog ../../../third_party/verilog-ethernet/rtl/eth_mac_1g_rgmii.v
 read_verilog ../../../third_party/verilog-ethernet/rtl/rgmii_phy_if.v
 read_verilog ../../../third_party/verilog-ethernet/rtl/eth_mac_1g.v
 
+read_verilog -sv ../axis_fifo.sv
 read_verilog -sv ../mac_wrapper.sv
 read_verilog -sv ../raw_frame_gen.sv
 read_verilog -sv ../mac_wrapper_tb.sv
