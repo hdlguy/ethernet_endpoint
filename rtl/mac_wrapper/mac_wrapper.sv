@@ -190,10 +190,19 @@ module mac_wrapper (
    assign userclk125 = gtx_clk;
    
     // make reset
+    logic[23:0] reset_count = -1;
+    logic rgmii_reset_n_int = 0;
     always_ff @(posedge gtx_clk) begin
         gtx_rst <= ~mmcm_locked;
+        if (mmcm_locked == 0) begin
+            reset_count <= -1;
+            rgmii_reset_n_int = 0;
+        end else begin
+            reset_count <= reset_count - 1;
+        end
+        if (reset_count == 0) rgmii_reset_n_int <= 1;        
     end
-    assign rgmii_reset_n = mmcm_locked;
+    assign rgmii_reset_n = rgmii_reset_n_int;
     
 
 endmodule

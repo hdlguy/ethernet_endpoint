@@ -79,23 +79,33 @@ int main(int argc, char *argv[])
 	/* Ethertype field */
 	eh->ether_type = htons(ETH_P_IP);
 	tx_len += sizeof(struct ether_header);
+    printf("sizeof(struct ether_header) = %ld\n", sizeof(struct ether_header));
+
+    // ethernet type 
+    sendbuf[12] = 0x08;
+    sendbuf[13] = 0x00;
+    // ip version 4, header length 20 (5)
+    sendbuf[14] = 0x45; 
+    tx_len = 20;
+
 
 	/* Packet data */
-	//sendbuf[tx_len++] = 0xde;
-	//sendbuf[tx_len++] = 0xad;
-	//sendbuf[tx_len++] = 0xbe;
-	//sendbuf[tx_len++] = 0xef;
+	sendbuf[tx_len++] = 0xde;
+	sendbuf[tx_len++] = 0xad;
+	sendbuf[tx_len++] = 0xbe;
+	sendbuf[tx_len++] = 0xef;
 
-    const int Ndata = 64;
-    for (int i=0; i<Ndata; i++) sendbuf[tx_len++] = 0xff - i;
-    sendbuf[14] = 0xfa;
-    sendbuf[15] = 0xf3;
-    sendbuf[16] = 0xbe;
-    sendbuf[17] = 0xfe;
-    sendbuf[18] = 0xca;
-    sendbuf[19] = 0xfe;
+    //const int Ndata = 64;
+    //for (int i=0; i<Ndata; i++) sendbuf[tx_len++] = 0xff - i;
+    //sendbuf[14] = 0x45; // ip version 4, header length 20 (5)
+    //sendbuf[15] = 0xfa;
+    //sendbuf[16] = 0xf3;
+    //sendbuf[17] = 0xbe;
+    //sendbuf[18] = 0xfe;
+    //sendbuf[20] = 0xca;
+    //sendbuf[21] = 0xfe;
 
-    sendbuf[28] = 0xff;
+    //sendbuf[28] = 0xff;
 
 	/* Index of the network device */
 	socket_address.sll_ifindex = if_idx.ifr_ifindex;
@@ -119,7 +129,7 @@ int main(int argc, char *argv[])
         } else {
             printf("%d: send_size = %ld\n", whilecount, send_size);
         }
-        sendbuf[28] -= 1;
+        //sendbuf[28] -= 1;
 
         usleep(1000000);
         whilecount++;

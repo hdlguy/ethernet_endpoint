@@ -47,33 +47,3 @@ module mac_wrapper_tb ();
     
 endmodule
 
-//    localparam int Lframe = 64;
-//    always_ff @(posedge tx_clk) begin
-//        
-//        if (tx_rst) begin
-//            tx_tvalid <= 0;
-//            tx_tdata <= 0;
-//        end else begin            
-//            tx_tvalid <= 1;
-//            if ((tx_tvalid==1) && (tx_tready==1)) tx_tdata <= tx_tdata + 1;
-//        end
-//        
-//    end
-//    
-//    assign tx_tlast  = (tx_tdata%Nframe == (Nframe-1)) ? 1'b1 : 1'b0;
-			
-
-
-
-/*
-module raw_frame_gen #(
-    parameter int Lframe = 64 // length of frame
-) (
-    input   logic       reset,
-    input   logic       clk,
-    output  logic       tvalid,
-    input   logic       tready,
-    output  logic[7:0]  tdata,
-    output  logic       tlast
-);
-*/
