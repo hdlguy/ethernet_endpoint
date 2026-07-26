@@ -6,6 +6,8 @@ create_project -part xc7a100tcsg324-2 -force proj
 set_property target_language Verilog [current_project]
 set_property default_lib work [current_project]
 
+source ../mac_ila.tcl
+
 #read_ip ../eth_ila/eth_ila.xci
 #upgrade_ip -quiet  [get_ips *]
 #generate_target {all} [get_ips *]

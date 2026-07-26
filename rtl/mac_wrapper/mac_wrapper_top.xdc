@@ -32,6 +32,9 @@ set_property PACKAGE_PIN D5         [get_ports rgmii_reset_n]
 set_property PACKAGE_PIN A6         [get_ports rgmii_mdio_clock]
 set_property PACKAGE_PIN C8         [get_ports rgmii_mdio_data]
 
+set_property IOSTANDARD LVCMOS33    [get_ports fan_pwm]
+set_property PACKAGE_PIN AA11       [get_ports fan_pwm]
+
 
 
 ##################################
