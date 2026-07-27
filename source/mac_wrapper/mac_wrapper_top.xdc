@@ -72,7 +72,7 @@ set_property PACKAGE_PIN AA11       [get_ports fan_pwm]
 #set_property IOSTANDARD LVCMOS18 [get_ports {rgmii_td[2]              }]
 #set_property IOSTANDARD LVCMOS18 [get_ports {rgmii_td[3]              }]
 
-set_property UNAVAILABLE_DURING_CALIBRATION TRUE [get_ports mdio_mdio_io]
+#set_property UNAVAILABLE_DURING_CALIBRATION TRUE [get_ports mdio_mdio_io]
 
 
 ##idelay
@@ -81,6 +81,4 @@ set_property UNAVAILABLE_DURING_CALIBRATION TRUE [get_ports mdio_mdio_io]
 #set_property DELAY_VALUE 500 [get_cells {design_1_i/axi_ethernet_0/inst/mac/inst/tri_mode_ethernet_mac_i/rgmii_interface/rxdata_bus[1].delay_rgmii_rxd}]
 #set_property DELAY_VALUE 500 [get_cells {design_1_i/axi_ethernet_0/inst/mac/inst/tri_mode_ethernet_mac_i/rgmii_interface/rxdata_bus[2].delay_rgmii_rxd}]
 #set_property DELAY_VALUE 500 [get_cells {design_1_i/axi_ethernet_0/inst/mac/inst/tri_mode_ethernet_mac_i/rgmii_interface/rxdata_bus[3].delay_rgmii_rxd}]
-~                                                                                                                                       
-~                                                                                                                                       
-~                                     
+                              

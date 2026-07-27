@@ -51,13 +51,13 @@ module mac_wrapper_top (
         .rgmii_tx_ctl       (rgmii_tx_ctl),
         .rgmii_reset_n      (rgmii_reset_n),
         //
-        .tx_clk             (userclk125),
+        .tx_clk             (user_clk),
         .tx_tdata           (tx_tdata),
         .tx_tvalid          (tx_tvalid),
         .tx_tready          (tx_tready),
         .tx_tlast           (tx_tlast),
         //
-        .rx_clk             (userclk125),
+        .rx_clk             (user_clk),
         .rx_tdata           (rx_tdata),
         .rx_tvalid          (rx_tvalid),
         .rx_tready          (rx_tready),
@@ -96,6 +96,6 @@ module mac_wrapper_top (
 
     
     // debug
-//    mac_ila ila_inst (.clk(user_clk), .probe0({tx_rst, tx_tdata, tx_tvalid, tx_tready, tx_tlast, rx_rst, rx_tdata, rx_tvalid, rx_tready, rx_tlast})); // 24
+    mac_ila ila_inst (.clk(user_clk), .probe0({tx_rst, tx_tdata, tx_tvalid, tx_tready, tx_tlast, rx_rst, rx_tdata, rx_tvalid, rx_tready, rx_tlast})); // 24
 
 endmodule

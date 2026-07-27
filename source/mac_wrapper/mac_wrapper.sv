@@ -51,7 +51,7 @@ module mac_wrapper (
     logic       mac_rx_rst;
     logic[7:0]  mac_rx_tdata;
     logic       mac_rx_tvalid;
-    logic       mac_rx_tready; // not used
+    logic       mac_rx_tready; // not used by mac
     logic       mac_rx_tlast;
 
     // Alex Forencich Gigabit MAC
@@ -263,9 +263,11 @@ module mac_wrapper (
     assign user_reset = user_reset_int;
     
 
-    // debug
-    mac_ila ila_inst (.clk(gtx_clk), .probe0({mac_tx_rst, mac_tx_tdata, mac_tx_tvalid, mac_tx_tready, mac_tx_tlast, mac_rx_rst, mac_rx_tdata, mac_rx_tvalid, mac_rx_tready, mac_rx_tlast})); // 24
-    
+//    // debug
+//    mac_ila mac_rx_ila_inst (.clk(mac_rx_clk), .probe0({mac_rx_rst, mac_rx_tvalid, mac_rx_tready, mac_rx_tdata, mac_rx_tlast})); // 12
+//    mac_ila rx_ila_inst (.clk(rx_clk), .probe0({mac_rx_rst, rx_tvalid, rx_tready, rx_tdata, rx_tlast})); // 12
+
+         
 endmodule
 
 /*
