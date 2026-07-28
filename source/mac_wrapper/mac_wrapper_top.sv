@@ -10,8 +10,8 @@ module mac_wrapper_top (
     output  logic[3:0]  rgmii_txd,
     output  logic       rgmii_tx_ctl,    
     output  logic       rgmii_reset_n,
-    output  logic       rgmii_mdio_clock,
-    output  logic       rgmii_mdio_data,
+    tri     logic       rgmii_mdio_clock,
+    tri     logic       rgmii_mdio_data,
     //
     output  logic       user_led,
     output  logic       fan_pwm

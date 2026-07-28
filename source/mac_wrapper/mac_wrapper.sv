@@ -140,7 +140,8 @@ module mac_wrapper #(
     // make clocks
     logic clkin200;
     IBUFDS IBUFDS_inst (.O(clkin200), .I(clkin200_p), .IB(clkin200_n));
-    logic clkfb, mmcm_locked, clkout0, clkout1, clkout2;
+    logic clkfb, mmcm_locked, clkout0, clkout1, clkout2;    
+    logic mmcm_rst = 1;
     MMCME4_ADV #(
         .BANDWIDTH("OPTIMIZED"),        // Jitter programming
         .CLKFBOUT_MULT_F(5.0),          // Multiply value for all CLKOUT
@@ -237,7 +238,7 @@ module mac_wrapper #(
         .PSEN(0),                 // 1-bit input: Phase shift enable
         .PSINCDEC(0),         // 1-bit input: Phase shift increment/decrement
         .PWRDWN(0),             // 1-bit input: Power-down
-        .RST(0)                    // 1-bit input: Reset
+        .RST(mmcm_rst)                    // 1-bit input: Reset
     );
     BUFG BUFG_gtx_clk (.O(gtx_clk), .I(clkout0));
     BUFG BUFG_gtx_clk90 (.O(gtx_clk90), .I(clkout1));
@@ -245,7 +246,6 @@ module mac_wrapper #(
     assign user_clk = gtx_clk;
    
     // make resets
-//    logic[23:0] reset_count = -1;
     logic[7:0] reset_count = -1;
     logic rgmii_reset_n_int = 0;
     logic user_reset_int=1;
@@ -265,6 +265,12 @@ module mac_wrapper #(
     end
     assign rgmii_reset_n = rgmii_reset_n_int;
     assign user_reset = user_reset_int;
+    
+    logic[7:0] clk200_count=-1;
+    always_ff @(posedge clkin200) begin
+        clk200_count <= clk200_count - 1;
+        if (clk200_count == 0) mmcm_rst <= 0;
+    end
     
 
 //    // debug

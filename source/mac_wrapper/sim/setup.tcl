@@ -34,9 +34,11 @@ read_verilog -sv ../mac_wrapper_top.sv
 #read_verilog -sv ../mac_wrapper_tb.sv
 
 read_verilog -sv ../rgmii_mux.sv
+read_verilog -sv ../rgmii_demux.sv
 read_verilog -sv ../mac_wrapper_top_tb.sv
 
 #add_files -fileset sim_1 -norecurse ./mac_wrapper_tb_behav.wcfg
+add_files -fileset sim_1 -norecurse ./mac_wrapper_top_tb_behav.wcfg
 
 close_project
 
