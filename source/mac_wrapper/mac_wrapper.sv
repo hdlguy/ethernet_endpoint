@@ -245,7 +245,8 @@ module mac_wrapper #(
     assign user_clk = gtx_clk;
    
     // make resets
-    logic[23:0] reset_count = -1;
+//    logic[23:0] reset_count = -1;
+    logic[7:0] reset_count = -1;
     logic rgmii_reset_n_int = 0;
     logic user_reset_int=1;
     always_ff @(posedge gtx_clk) begin

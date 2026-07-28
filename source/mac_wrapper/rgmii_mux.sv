@@ -1,4 +1,6 @@
 // double data rate mux to convert gmii to rgmii.
+`timescale 1ns/1ps;
+
 module rgmii_mux (
     input   logic           gmii_clk,
     input   logic           gmii_en,
@@ -18,7 +20,7 @@ module rgmii_mux (
         gmii_d_q  <= gmii_d;
     end
 
-    assign #1 rgmii_clk = gmii_clk; // delay the clock
+    assign #1ns rgmii_clk = gmii_clk; // delay the clock
     always_comb begin
         if (gmii_clk == 1'b1) begin
             rgmii_ctl = gmii_en_q;

@@ -1,13 +1,6 @@
-`timescale 1ns/1ps;
+`timescale 100ps/1ps;
 
 module mac_wrapper_top_tb();
-
-//    // a small frame from wireshark
-//    logic[7:0] wireframe[0:15] = {
-//        ff, ff, ff, ff, ff, ff, 94, 10,  
-//        3e, b7, e2, 01, 08, 00, 45, 00,  
-//        00, 00, 00, 00, de, ad, be, ef
-//    };
 
     // a valid gmii frame from AF simulation
     localparam int Ngmii = 76;
@@ -25,18 +18,35 @@ module mac_wrapper_top_tb();
 
     logic gmii_en, gmii_er;
     logic[7:0] gmii_d;
-    logic rgmii_clk, rgmii_ctl;
-    logic[3:0] rgmii_d;
+
+    logic       clkin200_p;
+    logic       clkin200_n;
+    logic       rgmii_rx_clk;
+    logic[3:0]  rgmii_rxd;
+    logic       rgmii_rx_ctl;
+    logic       rgmii_tx_clk;
+    logic[3:0]  rgmii_txd;
+    logic       rgmii_tx_ctl;    
+    logic       rgmii_reset_n;
+    logic       rgmii_mdio_clock;
+    logic       rgmii_mdio_data;   
+    logic       user_led;
+    logic       fan_pwm;
+    
+    pullup(rgmii_mdio_clock);
+    pullup(rgmii_mdio_data);   
     
     localparam time clk_period=8ns; logic gmii_clk=0; always #(clk_period/2) gmii_clk=~gmii_clk;
+    localparam time clk200_period=8ns; logic clk200=0; always #(clk200_period/2) clk200=~clk200;
+    assign clkin200_p = clk200; assign clkin200_n = ~clk200;
     
-    rgmii_mux rgmii_mux_inst (.gmii_clk(gmii_clk), .gmii_en(gmii_en), .gmii_er(gmii_er), .gmii_d(gmii_d), .rgmii_clk(rgmii_clk), .rgmii_ctl(rgmii_ctl), .rgmii_d(rgmii_d));
+    rgmii_mux rgmii_mux_inst (.gmii_clk(gmii_clk), .gmii_en(gmii_en), .gmii_er(gmii_er), .gmii_d(gmii_d), .rgmii_clk(rgmii_rx_clk), .rgmii_ctl(rgmii_rx_ctl), .rgmii_d(rgmii_rxd));
     
     initial begin
         gmii_en = 0;
         gmii_er = 0;
         gmii_d = 8'bxxxx_xxxx;
-        #(clk_period*10);
+        #(clk_period*100);
         
         for(int i=0; i<Ngmii; i++) begin
             gmii_en = 1;
@@ -47,13 +57,45 @@ module mac_wrapper_top_tb();
         for(int i=0; i<Ngmii; i++) begin
             gmii_en = 0;
             gmii_d = 8'bxxxx_xxxx;
-        end
-        
+        end        
     end
+    
+    mac_wrapper_top top_inst (        
+        .clkin200_p         (clkin200_p),
+        .clkin200_n         (clkin200_n),
+        .rgmii_rx_clk       (rgmii_rx_clk),
+        .rgmii_rxd          (rgmii_rxd),
+        .rgmii_rx_ctl       (rgmii_rx_ctl),
+        .rgmii_tx_clk       (rgmii_tx_clk),
+        .rgmii_txd          (rgmii_txd),
+        .rgmii_tx_ctl       (rgmii_tx_ctl),    
+        .rgmii_reset_n      (rgmii_reset_n),
+        .rgmii_mdio_clock   (rgmii_mdio_clock),
+        .rgmii_mdio_data    (rgmii_mdio_data),
+        .user_led           (user_led),
+        .fan_pwm            (fan_pwm)
+    );
 
 endmodule
 
 /*
+module mac_wrapper_top (
+    input   logic       clkin200_p,
+    input   logic       clkin200_n,
+    input   logic       rgmii_rx_clk,
+    input   logic[3:0]  rgmii_rxd,
+    input   logic       rgmii_rx_ctl,
+    output  logic       rgmii_tx_clk,
+    output  logic[3:0]  rgmii_txd,
+    output  logic       rgmii_tx_ctl,    
+    output  logic       rgmii_reset_n,
+    output  logic       rgmii_mdio_clock,
+    output  logic       rgmii_mdio_data,
+    //
+    output  logic       user_led,
+    output  logic       fan_pwm
+);
+
 module rgmii_mux (
     input   logic           gmii_clk,
     input   logic           gmii_en,
