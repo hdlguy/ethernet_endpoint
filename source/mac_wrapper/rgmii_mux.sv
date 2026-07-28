@@ -6,11 +6,11 @@ module rgmii_mux (
     input   logic[7:0]      gmii_d,
     output  logic           rgmii_clk,
     output  logic           rgmii_ctl,
-    input   logic[3:0]      rgmii_txd
+    output  logic[3:0]      rgmii_d
 );
 
 
-    logic gmii_en_q, gmii_er;
+    logic gmii_en_q, gmii_er_q;
     logic[7:0] gmii_d_q;
     always_ff @(posedge gmii_clk) begin
         gmii_en_q <= gmii_en;
@@ -21,11 +21,11 @@ module rgmii_mux (
     assign #1 rgmii_clk = gmii_clk; // delay the clock
     always_comb begin
         if (gmii_clk == 1'b1) begin
-            rgmii_ctl = gmii_en;
-            rgmii_d = gmii_d[3:0];
+            rgmii_ctl = gmii_en_q;
+            rgmii_d = gmii_d_q[3:0];
         end else begin
-            rgmii_ctl = gmii_en or gmii_er;
-            rgmii_d = gmii_d[7:4];
+            rgmii_ctl = gmii_en_q | gmii_er_q;
+            rgmii_d = gmii_d_q[7:4];
         end
     end
 

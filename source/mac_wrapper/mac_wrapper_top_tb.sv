@@ -1,4 +1,5 @@
-//
+`timescale 1ns/1ps;
+
 module mac_wrapper_top_tb();
 
 //    // a small frame from wireshark
@@ -9,7 +10,8 @@ module mac_wrapper_top_tb();
 //    };
 
     // a valid gmii frame from AF simulation
-    logic[7:0] gmii_frame[0:75] = {
+    localparam int Ngmii = 76;
+    logic[7:0] gmii_frame[0:Ngmii-1] = {
         // preamble
         8'h55, 8'h55, 8'h55, 8'h55, 8'h55, 8'h55, 8'h55, 8'hd5, 
         // data
@@ -21,6 +23,44 @@ module mac_wrapper_top_tb();
         8'h8c, 8'hce, 8'h0e, 8'h10
     };
 
+    logic gmii_en, gmii_er;
+    logic[7:0] gmii_d;
+    logic rgmii_clk, rgmii_ctl;
+    logic[3:0] rgmii_d;
+    
+    localparam time clk_period=8ns; logic gmii_clk=0; always #(clk_period/2) gmii_clk=~gmii_clk;
+    
+    rgmii_mux rgmii_mux_inst (.gmii_clk(gmii_clk), .gmii_en(gmii_en), .gmii_er(gmii_er), .gmii_d(gmii_d), .rgmii_clk(rgmii_clk), .rgmii_ctl(rgmii_ctl), .rgmii_d(rgmii_d));
+    
+    initial begin
+        gmii_en = 0;
+        gmii_er = 0;
+        gmii_d = 8'bxxxx_xxxx;
+        #(clk_period*10);
+        
+        for(int i=0; i<Ngmii; i++) begin
+            gmii_en = 1;
+            gmii_d = gmii_frame[i];
+            #(clk_period*1);
+        end
+        
+        for(int i=0; i<Ngmii; i++) begin
+            gmii_en = 0;
+            gmii_d = 8'bxxxx_xxxx;
+        end
+        
+    end
 
 endmodule
 
+/*
+module rgmii_mux (
+    input   logic           gmii_clk,
+    input   logic           gmii_en,
+    input   logic           gmii_er,
+    input   logic[7:0]      gmii_d,
+    output  logic           rgmii_clk,
+    output  logic           rgmii_ctl,
+    output  logic[3:0]      rgmii_d
+);
+*/
