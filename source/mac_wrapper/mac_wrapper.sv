@@ -1,12 +1,16 @@
+// mac_wrapper.sv - This block instantiates the Alex Forencich tri-mode ethernet MAC along with tx
+// and rx fifo and an MMCM for clock generation. 
 //
-module mac_wrapper (
+module mac_wrapper #(
+    parameter int fifo_depth = 4096
+) (
     // external 200MHz differential clock
     input   logic       clkin200_p,
     input   logic       clkin200_n,
-    // generated clocks
-    output  logic       refclk,
-    output  logic       user_clk,
-    output  logic       user_reset,
+    // generated clocks and reset
+    output  logic       refclk,     // 200MHz reference clock for IO delay if needed
+    output  logic       user_clk,   // 125MHz clock for all user logic
+    output  logic       user_reset, // reset with deassertion synchronized to user_clock
     // external rgmii interface to PHY
     input   logic       rgmii_rx_clk,
     input   logic[3:0]  rgmii_rxd,
@@ -14,14 +18,14 @@ module mac_wrapper (
     output  logic       rgmii_tx_clk,
     output  logic[3:0]  rgmii_txd,
     output  logic       rgmii_tx_ctl,
-    output  logic       rgmii_reset_n,
-    // tx 
+    output  logic       rgmii_reset_n,  // reset to the PHY
+    // app side of the tx fifo
     input   logic       tx_clk,
     input   logic[7:0]  tx_tdata,
     input   logic       tx_tvalid,
     output  logic       tx_tready,
     input   logic       tx_tlast,
-    // rx
+    // app side of the rx fifo
     input   logic       rx_clk,
     output  logic[7:0]  rx_tdata,
     output  logic       rx_tvalid,
@@ -31,22 +35,21 @@ module mac_wrapper (
 
     logic       gtx_clk;
     logic       gtx_clk90;
-
     logic       gtx_rst=1;
 
+    // mac status, maybe should be outputs to next level
     logic       tx_error_underflow;
     logic       rx_error_bad_frame;
     logic       rx_error_bad_fcs;
     logic[1:0]  speed;
-
-    // tx into mac - make an interface
+    // tx from fifo into mac
     logic       mac_tx_clk;
     logic       mac_tx_rst;
     logic[7:0]  mac_tx_tdata;
     logic       mac_tx_tvalid;
     logic       mac_tx_tready;
     logic       mac_tx_tlast;
-    // rx from mac - make an interface
+    // rx from mac into fifo
     logic       mac_rx_clk;
     logic       mac_rx_rst;
     logic[7:0]  mac_rx_tdata;
@@ -101,7 +104,7 @@ module mac_wrapper (
     );
 
     // tx fifo
-    axis_fifo #( .width(8), .depth(4096)) tx_fifo_inst (
+    axis_fifo #( .width(8), .depth(fifo_depth)) tx_fifo_inst (
         // app side
         .s_aclk     (tx_clk),
         .s_tvalid   (tx_tvalid),
@@ -118,7 +121,7 @@ module mac_wrapper (
     );
 
     // rx fifo
-    axis_fifo #( .width(8), .depth(4096)) rx_fifo_inst (
+    axis_fifo #( .width(8), .depth(fifo_depth)) rx_fifo_inst (
         // mac side
         .s_aresetn  (~mac_rx_rst),
         .s_aclk     (mac_rx_clk),
@@ -241,15 +244,15 @@ module mac_wrapper (
     BUFG BUFG_refclk (.O(refclk), .I(clkout2));
     assign user_clk = gtx_clk;
    
-    // make reset
+    // make resets
     logic[23:0] reset_count = -1;
     logic rgmii_reset_n_int = 0;
     logic user_reset_int=1;
     always_ff @(posedge gtx_clk) begin
-        //
-        gtx_rst <= ~mmcm_locked;
+        // release resets to the mac and app logic when the clocks are stable
+        gtx_rst        <= ~mmcm_locked;
         user_reset_int <= ~mmcm_locked;
-        //
+        // provide big delay on reset to PHY - is this needed?
         if (mmcm_locked == 0) begin
             reset_count <= -1;
             rgmii_reset_n_int = 0;
