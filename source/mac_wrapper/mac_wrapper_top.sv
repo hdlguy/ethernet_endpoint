@@ -61,11 +61,16 @@ module mac_wrapper_top (
         .rx_tdata           (rx_tdata),
         .rx_tvalid          (rx_tvalid),
         .rx_tready          (rx_tready),
-        .rx_tlast           (rx_tlast)
+        .rx_tlast           (rx_tlast),
+        // mac status
+        .tx_error_underflow (),
+        .rx_error_bad_frame (),
+        .rx_error_bad_fcs   (),
+        .speed              ()
     );
     
     
-    // lets loop back through a fifo
+    // loopback app side through a fifo
     axis_fifo #(
         .width(8),
         .depth(4096)
@@ -85,10 +90,11 @@ module mac_wrapper_top (
         .m_tlast    (tx_tlast)
     );
 
-    // flash the LED
     logic[26:0] led_count=0;
     always_ff @(posedge user_clk) begin
+        // free running counter
         led_count <= led_count + 1;
+        // flash the LED
         user_led  <= led_count[26];
         // slow down the fan
         fan_pwm <= led_count[17] & led_count[16] & led_count[15];

@@ -30,18 +30,18 @@ module mac_wrapper #(
     output  logic[7:0]  rx_tdata,
     output  logic       rx_tvalid,
     input   logic       rx_tready,
-    output  logic       rx_tlast
+    output  logic       rx_tlast,
+    // mac status, maybe should be outputs to next level
+    output  logic       tx_error_underflow,
+    output  logic       rx_error_bad_frame,
+    output  logic       rx_error_bad_fcs,
+    output  logic[1:0]  speed
 );
 
-    logic       gtx_clk;
-    logic       gtx_clk90;
+    // clocks and reset
+    logic       gtx_clk, gtx_clk90;
     logic       gtx_rst=1;
 
-    // mac status, maybe should be outputs to next level
-    logic       tx_error_underflow;
-    logic       rx_error_bad_frame;
-    logic       rx_error_bad_fcs;
-    logic[1:0]  speed;
     // tx from fifo into mac
     logic       mac_tx_clk;
     logic       mac_tx_rst;

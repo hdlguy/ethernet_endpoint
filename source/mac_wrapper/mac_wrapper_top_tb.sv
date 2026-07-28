@@ -61,11 +61,9 @@ module mac_wrapper_top_tb();
                 #(clk_period*1);
             end
             
-            for(int i=0; i<Ngmii; i++) begin
-                gmii_rx_en = 0;
-                gmii_rx_d = 8'bxxxx_xxxx;
-                #(clk_period*1);
-            end
+            gmii_rx_en = 0;
+            gmii_rx_d = 8'bxxxx_xxxx;
+            #(clk_period*10);
         
         end        
     end
