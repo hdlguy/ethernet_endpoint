@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="4,000.001 ns"></ZoomEndTime>
+      <ZoomEndTime time="34.754 ns"></ZoomEndTime>
       <Cursor1Time time="0.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="276"></NameColumnWidth>
-      <ValueColumnWidth column_width="104"></ValueColumnWidth>
+      <ValueColumnWidth column_width="100"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="58" />
+   <WVObjectSize size="86" />
    <wvobject type="logic" fp_name="/mac_wrapper_tb/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -46,12 +46,6 @@
       <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/rgmii_tx_clk">
-      <obj_property name="ElementShortName">rgmii_tx_clk</obj_property>
-      <obj_property name="ObjectShortName">rgmii_tx_clk</obj_property>
-      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/mac_wrapper_tb/rgmii_rxd">
       <obj_property name="ElementShortName">rgmii_rxd[3:0]</obj_property>
       <obj_property name="ObjectShortName">rgmii_rxd[3:0]</obj_property>
@@ -61,6 +55,12 @@
    <wvobject type="logic" fp_name="/mac_wrapper_tb/rgmii_rx_ctl">
       <obj_property name="ElementShortName">rgmii_rx_ctl</obj_property>
       <obj_property name="ObjectShortName">rgmii_rx_ctl</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/rgmii_tx_clk">
+      <obj_property name="ElementShortName">rgmii_tx_clk</obj_property>
+      <obj_property name="ObjectShortName">rgmii_tx_clk</obj_property>
       <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
@@ -141,95 +141,219 @@
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">#0000FF</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/clkin200_p">
-      <obj_property name="ElementShortName">clkin200_p</obj_property>
-      <obj_property name="ObjectShortName">clkin200_p</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/clkin200_n">
-      <obj_property name="ElementShortName">clkin200_n</obj_property>
-      <obj_property name="ObjectShortName">clkin200_n</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mmcm_locked">
-      <obj_property name="ElementShortName">mmcm_locked</obj_property>
-      <obj_property name="ObjectShortName">mmcm_locked</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/gtx_rst">
-      <obj_property name="ElementShortName">gtx_rst</obj_property>
-      <obj_property name="ObjectShortName">gtx_rst</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/gtx_clk">
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/gtx_clk">
       <obj_property name="ElementShortName">gtx_clk</obj_property>
       <obj_property name="ObjectShortName">gtx_clk</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/gtx_clk90">
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/gtx_clk90">
       <obj_property name="ElementShortName">gtx_clk90</obj_property>
       <obj_property name="ObjectShortName">gtx_clk90</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rgmii_rx_clk">
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/gtx_rst">
+      <obj_property name="ElementShortName">gtx_rst</obj_property>
+      <obj_property name="ObjectShortName">gtx_rst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_clk">
+      <obj_property name="ElementShortName">rx_clk</obj_property>
+      <obj_property name="ObjectShortName">rx_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_rst">
+      <obj_property name="ElementShortName">rx_rst</obj_property>
+      <obj_property name="ObjectShortName">rx_rst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/tx_clk">
+      <obj_property name="ElementShortName">tx_clk</obj_property>
+      <obj_property name="ObjectShortName">tx_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/tx_rst">
+      <obj_property name="ElementShortName">tx_rst</obj_property>
+      <obj_property name="ObjectShortName">tx_rst</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/tx_axis_tdata">
+      <obj_property name="ElementShortName">tx_axis_tdata[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tx_axis_tdata[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/tx_axis_tvalid">
+      <obj_property name="ElementShortName">tx_axis_tvalid</obj_property>
+      <obj_property name="ObjectShortName">tx_axis_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/tx_axis_tready">
+      <obj_property name="ElementShortName">tx_axis_tready</obj_property>
+      <obj_property name="ObjectShortName">tx_axis_tready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/tx_axis_tlast">
+      <obj_property name="ElementShortName">tx_axis_tlast</obj_property>
+      <obj_property name="ObjectShortName">tx_axis_tlast</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/tx_axis_tuser">
+      <obj_property name="ElementShortName">tx_axis_tuser</obj_property>
+      <obj_property name="ObjectShortName">tx_axis_tuser</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_axis_tdata">
+      <obj_property name="ElementShortName">rx_axis_tdata[7:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_axis_tdata[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_axis_tvalid">
+      <obj_property name="ElementShortName">rx_axis_tvalid</obj_property>
+      <obj_property name="ObjectShortName">rx_axis_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_axis_tlast">
+      <obj_property name="ElementShortName">rx_axis_tlast</obj_property>
+      <obj_property name="ObjectShortName">rx_axis_tlast</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_axis_tuser">
+      <obj_property name="ElementShortName">rx_axis_tuser</obj_property>
+      <obj_property name="ObjectShortName">rx_axis_tuser</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/rgmii_rx_clk">
       <obj_property name="ElementShortName">rgmii_rx_clk</obj_property>
       <obj_property name="ObjectShortName">rgmii_rx_clk</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_tx_clk">
-      <obj_property name="ElementShortName">mac_tx_clk</obj_property>
-      <obj_property name="ObjectShortName">mac_tx_clk</obj_property>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/rgmii_rxd">
+      <obj_property name="ElementShortName">rgmii_rxd[3:0]</obj_property>
+      <obj_property name="ObjectShortName">rgmii_rxd[3:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_tx_rst">
-      <obj_property name="ElementShortName">mac_tx_rst</obj_property>
-      <obj_property name="ObjectShortName">mac_tx_rst</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/rgmii_rx_ctl">
+      <obj_property name="ElementShortName">rgmii_rx_ctl</obj_property>
+      <obj_property name="ObjectShortName">rgmii_rx_ctl</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_tx_tvalid">
-      <obj_property name="ElementShortName">mac_tx_tvalid</obj_property>
-      <obj_property name="ObjectShortName">mac_tx_tvalid</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/rgmii_tx_clk">
+      <obj_property name="ElementShortName">rgmii_tx_clk</obj_property>
+      <obj_property name="ObjectShortName">rgmii_tx_clk</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_tx_tready">
-      <obj_property name="ElementShortName">mac_tx_tready</obj_property>
-      <obj_property name="ObjectShortName">mac_tx_tready</obj_property>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/rgmii_txd">
+      <obj_property name="ElementShortName">rgmii_txd[3:0]</obj_property>
+      <obj_property name="ObjectShortName">rgmii_txd[3:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_tx_tdata">
-      <obj_property name="ElementShortName">mac_tx_tdata[7:0]</obj_property>
-      <obj_property name="ObjectShortName">mac_tx_tdata[7:0]</obj_property>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/rgmii_tx_ctl">
+      <obj_property name="ElementShortName">rgmii_tx_ctl</obj_property>
+      <obj_property name="ObjectShortName">rgmii_tx_ctl</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_tx_tlast">
-      <obj_property name="ElementShortName">mac_tx_tlast</obj_property>
-      <obj_property name="ObjectShortName">mac_tx_tlast</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_rx_clk">
-      <obj_property name="ElementShortName">mac_rx_clk</obj_property>
-      <obj_property name="ObjectShortName">mac_rx_clk</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_rx_rst">
-      <obj_property name="ElementShortName">mac_rx_rst</obj_property>
-      <obj_property name="ObjectShortName">mac_rx_rst</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_rx_tvalid">
-      <obj_property name="ElementShortName">mac_rx_tvalid</obj_property>
-      <obj_property name="ObjectShortName">mac_rx_tvalid</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_rx_tdata">
-      <obj_property name="ElementShortName">mac_rx_tdata[7:0]</obj_property>
-      <obj_property name="ObjectShortName">mac_rx_tdata[7:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_rx_tlast">
-      <obj_property name="ElementShortName">mac_rx_tlast</obj_property>
-      <obj_property name="ObjectShortName">mac_rx_tlast</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/tx_error_underflow">
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/tx_error_underflow">
       <obj_property name="ElementShortName">tx_error_underflow</obj_property>
       <obj_property name="ObjectShortName">tx_error_underflow</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rx_error_bad_frame">
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_error_bad_frame">
       <obj_property name="ElementShortName">rx_error_bad_frame</obj_property>
       <obj_property name="ObjectShortName">rx_error_bad_frame</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/rx_error_bad_fcs">
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_error_bad_fcs">
       <obj_property name="ElementShortName">rx_error_bad_fcs</obj_property>
       <obj_property name="ObjectShortName">rx_error_bad_fcs</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/speed">
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/speed">
       <obj_property name="ElementShortName">speed[1:0]</obj_property>
       <obj_property name="ObjectShortName">speed[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/cfg_ifg">
+      <obj_property name="ElementShortName">cfg_ifg[7:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_ifg[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/cfg_tx_enable">
+      <obj_property name="ElementShortName">cfg_tx_enable</obj_property>
+      <obj_property name="ObjectShortName">cfg_tx_enable</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/cfg_rx_enable">
+      <obj_property name="ElementShortName">cfg_rx_enable</obj_property>
+      <obj_property name="ObjectShortName">cfg_rx_enable</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/mac_gmii_rxd">
+      <obj_property name="ElementShortName">mac_gmii_rxd[7:0]</obj_property>
+      <obj_property name="ObjectShortName">mac_gmii_rxd[7:0]</obj_property>
+      <obj_property name="CustomSignalColor">#00FF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/mac_gmii_rx_dv">
+      <obj_property name="ElementShortName">mac_gmii_rx_dv</obj_property>
+      <obj_property name="ObjectShortName">mac_gmii_rx_dv</obj_property>
+      <obj_property name="CustomSignalColor">#00FF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/mac_gmii_rx_er">
+      <obj_property name="ElementShortName">mac_gmii_rx_er</obj_property>
+      <obj_property name="ObjectShortName">mac_gmii_rx_er</obj_property>
+      <obj_property name="CustomSignalColor">#00FF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/mac_gmii_tx_clk_en">
+      <obj_property name="ElementShortName">mac_gmii_tx_clk_en</obj_property>
+      <obj_property name="ObjectShortName">mac_gmii_tx_clk_en</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/mac_gmii_txd">
+      <obj_property name="ElementShortName">mac_gmii_txd[7:0]</obj_property>
+      <obj_property name="ObjectShortName">mac_gmii_txd[7:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/mac_gmii_tx_en">
+      <obj_property name="ElementShortName">mac_gmii_tx_en</obj_property>
+      <obj_property name="ObjectShortName">mac_gmii_tx_en</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/mac_gmii_tx_er">
+      <obj_property name="ElementShortName">mac_gmii_tx_er</obj_property>
+      <obj_property name="ObjectShortName">mac_gmii_tx_er</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/speed_reg">
+      <obj_property name="ElementShortName">speed_reg[1:0]</obj_property>
+      <obj_property name="ObjectShortName">speed_reg[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/mac_wrapper_tb/uut/mac_inst/mii_select_reg">
+      <obj_property name="ElementShortName">mii_select_reg</obj_property>
+      <obj_property name="ObjectShortName">mii_select_reg</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/tx_mii_select_sync">
+      <obj_property name="ElementShortName">tx_mii_select_sync[1:0]</obj_property>
+      <obj_property name="ObjectShortName">tx_mii_select_sync[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_mii_select_sync">
+      <obj_property name="ElementShortName">rx_mii_select_sync[1:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_mii_select_sync[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_prescale">
+      <obj_property name="ElementShortName">rx_prescale[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_prescale[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_prescale_sync">
+      <obj_property name="ElementShortName">rx_prescale_sync[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_prescale_sync[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_speed_count_1">
+      <obj_property name="ElementShortName">rx_speed_count_1[6:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_speed_count_1[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/rx_speed_count_2">
+      <obj_property name="ElementShortName">rx_speed_count_2[1:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_speed_count_2[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/TARGET">
+      <obj_property name="ElementShortName">TARGET[47:0]</obj_property>
+      <obj_property name="ObjectShortName">TARGET[47:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/IODDR_STYLE">
+      <obj_property name="ElementShortName">IODDR_STYLE[39:0]</obj_property>
+      <obj_property name="ObjectShortName">IODDR_STYLE[39:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/CLOCK_INPUT_STYLE">
+      <obj_property name="ElementShortName">CLOCK_INPUT_STYLE[31:0]</obj_property>
+      <obj_property name="ObjectShortName">CLOCK_INPUT_STYLE[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/USE_CLK90">
+      <obj_property name="ElementShortName">USE_CLK90[31:0]</obj_property>
+      <obj_property name="ObjectShortName">USE_CLK90[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/ENABLE_PADDING">
+      <obj_property name="ElementShortName">ENABLE_PADDING[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ENABLE_PADDING[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/mac_wrapper_tb/uut/mac_inst/MIN_FRAME_LENGTH">
+      <obj_property name="ElementShortName">MIN_FRAME_LENGTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">MIN_FRAME_LENGTH[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="divider60" type="divider">
    </wvobject>

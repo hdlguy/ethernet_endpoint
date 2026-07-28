@@ -95,6 +95,12 @@ int main(int argc, char *argv[])
 	sendbuf[tx_len++] = 0xbe;
 	sendbuf[tx_len++] = 0xef;
 
+    //tx_len = 80; // make packet longer
+	//sendbuf[tx_len-4] = 0xca;
+	//sendbuf[tx_len-3] = 0xfe;
+	//sendbuf[tx_len-2] = 0xba;
+	//sendbuf[tx_len-1] = 0xbe;
+
     //const int Ndata = 64;
     //for (int i=0; i<Ndata; i++) sendbuf[tx_len++] = 0xff - i;
     //sendbuf[14] = 0x45; // ip version 4, header length 20 (5)
