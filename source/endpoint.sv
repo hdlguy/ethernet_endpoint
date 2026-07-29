@@ -1,7 +1,12 @@
 // endpoint.sv - this is the complete ethernet endpoint incorporating
 // ARP, Ping, and UDP protocols.
 
-module endpoint (
+import net_pak::*;
+
+module endpoint #(
+    parameter logic[0:5][7:0] local_mac = {8'h00, 8'h0A, 8'h35, 8'h01, 8'h02, 8'h03};
+    parameter logic[0:3][7:0] local_ip  = {8'h10, 8'h00, 8'h00, 8'h80}; // 16.0.0.128
+) (
     input   logic       clkin200_p,
     input   logic       clkin200_n,
     // rgmii
@@ -70,21 +75,30 @@ module endpoint (
     );
 
     // rx packet filter
-    ethernet_rx ethernet_rx_inst (
+    logic arp_tvalid, arp_tready;
+    arp_struct arp_tdata;
+    logic ipv4_rx_tvalid, ipv4_rx_tready, ipv4_rx_tlast;
+    logic[7:0]  ipv4_rx_tdata;
+    eth_rx_parser eth_rx_parser_inst (
+        //
         .clk                (user_clk),
         .reset              (user_reset),
-        //
+        // stream interface from mac_wrapper
         .rx_clk             (user_clk),
         .rx_tvalid          (rx_tvalid),
         .rx_tready          (rx_tready),
         .rx_tdata           (rx_tdata),
         .rx_tlast           (rx_tlast),
-        // metadata
-        
-        // frame data
-        
+        // arp data
+        .arp_tvalid         (arp_tvalid),
+        .arp_tready         (arp_tready),
+        .arp_tdata          (arp_tdata),
+        // ipv4 data
+        .ipv4_rx_tvalid     (ipv4_rx_tvalid),
+        .ipv4_rx_tready     (ipv4_rx_tready),
+        .ipv4_rx_tdata      (ipv4_rx_tdata),
+        .ipv4_rx_tlast      (ipv4_rx_tlast)
     ); 
     
-
 endmodule
 
