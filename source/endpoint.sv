@@ -1,7 +1,7 @@
 // endpoint.sv - this is the complete ethernet endpoint incorporating
 // ARP, Ping, and UDP protocols.
 
-import net_pak::*;
+import ethernet_types_pkg::*;
 
 module endpoint #(
     parameter logic[0:5][7:0] local_mac = {8'h00, 8'h0A, 8'h35, 8'h01, 8'h02, 8'h03};
