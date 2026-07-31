@@ -47,6 +47,7 @@ package ethernet_types_pkg;
     logic [31:0] target_ip;   // IP being queried - equals local_ip by construction
   } arp_struct;
  
-endpackage : ethernet_types_pkg
+endpackage
+//endpackage : ethernet_types_pkg
  
 
