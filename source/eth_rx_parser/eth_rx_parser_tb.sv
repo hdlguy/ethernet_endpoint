@@ -1,12 +1,12 @@
 //
 `timescale 1ns/1ps
 
-import ethernet_types_pkg::*;
+//import ethernet_types_pkg::*;
 
 module eth_rx_parser_tb();
 
-    localparam logic [0:5][7:0] local_mac = {8'h00, 8'h0A, 8'h35, 8'h01, 8'h02, 8'h03};
-    localparam logic [0:3][7:0] local_ip  = {8'h10, 8'h00, 8'h00, 8'h80};    
+    localparam logic [0:5][7:0] local_mac = 48'h00_0A_35_01_02_03;
+    localparam logic [0:3][7:0] local_ip  = 32'h10_00_00_80;    
     localparam logic [0:5][7:0] host_mac  = {8'h94, 8'h10, 8'h3e, 8'hb7, 8'he2, 8'h01};
     localparam logic [0:3][7:0] host_ip   = {8'h10, 8'h00, 8'h00, 8'hc8};
     localparam logic [0:5][7:0] broadcast_mac  = {8'hff, 8'hff, 8'hff, 8'hff, 8'hff, 8'hff};
@@ -17,14 +17,17 @@ module eth_rx_parser_tb();
     logic [7:0] rx_tdata;
     logic       rx_tlast;
     logic       arp_tvalid;
-    logic       arp_tready;
-    arp_struct  arp_tdata;
+    logic       arp_tready=0;
+    logic[47:0] arp_sha;
+    logic[31:0] arp_spa;
+    logic[31:0] arp_tpa;
+//    arp_struct  arp_tdata;
     logic       ipv4_rx_tvalid;
     logic       ipv4_rx_tready;
     logic [7:0] ipv4_rx_tdata;
     logic       ipv4_rx_tlast;
 
-    localparam time clk_period=8ns; logic clk=1'b0; always #(clk_period/2) clk=~clk;
+    localparam time clk_period=10ns; logic clk=1'b0; always #(clk_period/2) clk=~clk; // really 8ns
 
     eth_rx_parser #(.local_mac(local_mac), .local_ip(local_ip)) uut (.*);
 
@@ -44,27 +47,63 @@ module eth_rx_parser_tb();
         local_ip,
         {18{8'h00}}
     };
+    
+    logic[0:arplen-1][7:0] arp_req_frame2 = {
+        broadcast_mac, 
+        host_mac, 
+        8'h08, 8'h06,
+        8'h00, 8'h01,
+        8'h08, 8'h00,
+        8'h06, 8'h04,
+        8'h00, 8'h01,
+        host_mac,
+        host_ip,
+        {6{8'h00}},
+        local_ip+1, // wrong
+        {18{8'h00}}
+    };
 
     initial begin
         reset = 1;
         rx_tvalid = 0;
         rx_tdata = 8'bxxxx_xxxx;
         rx_tlast = 1'bx;
+        arp_tready = 0;
         #(clk_period*10);
         reset = 0;
         #(clk_period*10);
-
-        for (int i=0; i<arplen; i++) begin
-            rx_tvalid = 1;
-            rx_tdata = arp_req_frame[i];
-            if (i==(arplen-1)) rx_tlast=1; else rx_tlast=0;
-            #(clk_period*1);
-        end
-
-        rx_tvalid = 0;
-        rx_tdata = 8'bxxxx_xxxx;
-        rx_tlast = 1'bx;
         
+        forever begin
+
+            for (int i=0; i<arplen; i++) begin
+                rx_tvalid = 1;
+                rx_tdata = arp_req_frame[i];
+                if (i==(arplen-1)) rx_tlast=1; else rx_tlast=0;
+                #(clk_period*1);
+            end
+            rx_tvalid = 0;
+            rx_tdata = 8'bxxxx_xxxx;
+            rx_tlast = 1'bx;
+            #(clk_period*20);
+
+            for (int i=0; i<arplen; i++) begin
+                rx_tvalid = 1;
+                rx_tdata = arp_req_frame2[i];
+                if (i==(arplen-1)) rx_tlast=1; else rx_tlast=0;
+                #(clk_period*1);
+            end
+            rx_tvalid = 0;
+            rx_tdata = 8'bxxxx_xxxx;
+            rx_tlast = 1'bx;
+            #(clk_period*20);
+                
+        end
+        
+    end
+    
+    // acknowledge arp
+    always_ff @(posedge clk) begin
+        arp_tready <= arp_tvalid;
     end
     
 endmodule
