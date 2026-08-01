@@ -22,10 +22,10 @@ module eth_rx_parser_tb();
     logic[31:0] arp_spa;
     logic[31:0] arp_tpa;
 //    arp_struct  arp_tdata;
-    logic       ipv4_rx_tvalid;
-    logic       ipv4_rx_tready;
-    logic [7:0] ipv4_rx_tdata;
-    logic       ipv4_rx_tlast;
+    logic       ipv4_tvalid;
+    logic       ipv4_tready;
+    logic [7:0] ipv4_tdata;
+    logic       ipv4_tlast;
 
     localparam time clk_period=10ns; logic clk=1'b0; always #(clk_period/2) clk=~clk; // really 8ns
 
@@ -59,7 +59,7 @@ module eth_rx_parser_tb();
         host_mac,
         host_ip,
         {6{8'h00}},
-        local_ip+1, // wrong
+        local_ip+1, // doesn't match local ip so arp rejected
         {18{8'h00}}
     };
 
@@ -105,6 +105,8 @@ module eth_rx_parser_tb();
     always_ff @(posedge clk) begin
         arp_tready <= arp_tvalid;
     end
+    
+    assign ipv4_tready = 1;
     
 endmodule
 

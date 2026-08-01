@@ -22,10 +22,10 @@ module eth_rx_parser #(
     output logic[31:0]  arp_tpa,    
     //output arp_struct   arp_tdata,    
     // ipv4 payload passthrough (Ethernet header stripped)
-    output logic        ipv4_rx_tvalid,
-    input  logic        ipv4_rx_tready,
-    output logic [7:0]  ipv4_rx_tdata,
-    output logic        ipv4_rx_tlast
+    output logic        ipv4_tvalid,
+    input  logic        ipv4_tready,
+    output logic [7:0]  ipv4_tdata,
+    output logic        ipv4_tlast
 );
  
     localparam logic [47:0] BROADCAST_MAC = 48'hFF_FF_FF_FF_FF_FF;    
@@ -42,6 +42,7 @@ module eth_rx_parser #(
     assign src_mac =  {wr_byte[6], wr_byte[7], wr_byte[8], wr_byte[9], wr_byte[10], wr_byte[11]};    
     logic[15:0] frame_type;
     assign frame_type = {wr_byte[12], wr_byte[13]}; 
+    
     // rename arp fields. 
     logic[15:0] htype;
     assign htype = {wr_byte[14], wr_byte[15]};
@@ -69,6 +70,7 @@ module eth_rx_parser #(
     logic dv_in;
     assign dv_in = (rx_tvalid & rx_tready);
  
+    // header parsing
     logic[15:0] byte_count=0;
     always_ff @(posedge clk) begin    
     
@@ -86,6 +88,7 @@ module eth_rx_parser #(
         
     end
     
+    // arp handshake
     logic arp_tvalid_int=0;
     always_ff @(posedge clk) begin   
         // latch out arp data and assert tvalid
@@ -100,6 +103,22 @@ module eth_rx_parser #(
         
     end
     assign arp_tvalid = arp_tvalid_int;
+    
+    // ipv4 passthrough
+    logic ipv4_tvalid_int=0;
+    always_ff @(posedge clk) begin 
+    
+        ipv4_tdata <= rx_tdata;
+        
+        if ((byte_count > 13) && (frame_type == 16'h0800)) begin
+            ipv4_tvalid_int <= 1;
+        end 
+        
+        if ((dv_in) && (rx_tlast)) begin
+            ipv4_tvalid_int <= 0;
+        end
+    end
+    assign ipv4_tvalid = ipv4_tvalid_int;
     
  
 endmodule : eth_rx_parser
