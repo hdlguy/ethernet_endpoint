@@ -1,6 +1,6 @@
 // eth_rx_parser.sv
  
-//import ethernet_types_pkg::*;
+import ethernet_types_pkg::*;
  
 module eth_rx_parser #(
     parameter logic [47:0] local_mac,

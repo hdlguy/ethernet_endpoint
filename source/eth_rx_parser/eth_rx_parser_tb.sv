@@ -1,7 +1,7 @@
 //
 `timescale 1ns/1ps
 
-//import ethernet_types_pkg::*;
+import ethernet_types_pkg::*;
 
 module eth_rx_parser_tb();
 
