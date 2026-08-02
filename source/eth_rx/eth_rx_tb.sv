@@ -3,7 +3,7 @@
 
 import ethernet_types_pkg::*;
 
-module eth_rx_parser_tb();
+module eth_rx_tb();
 
     localparam logic [0:5][7:0] local_mac = 48'h00_0A_35_01_02_03;
     localparam logic [0:3][7:0] local_ip  = 32'h10_00_00_80;    
@@ -29,7 +29,7 @@ module eth_rx_parser_tb();
 
     localparam time clk_period=10ns; logic clk=1'b0; always #(clk_period/2) clk=~clk; // really 8ns
 
-    eth_rx_parser #(.local_mac(local_mac), .local_ip(local_ip)) uut (.*);
+    eth_rx #(.local_mac(local_mac), .local_ip(local_ip)) uut (.*);
 
     localparam int arplen = 60;
 

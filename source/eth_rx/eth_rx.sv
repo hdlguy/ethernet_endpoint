@@ -1,10 +1,11 @@
-// eth_rx_parser.sv
+// eth_rx.sv - this module accepts ethernet frames from mac_wrapper. When it detects an ARP
+// request it latches the arp data and signals an arp event. Otherwise, it forwards ipv4 frames.
  
 import ethernet_types_pkg::*;
  
-module eth_rx_parser #(
-    parameter logic [47:0] local_mac,
-    parameter logic [31:0] local_ip
+module eth_rx #(
+    parameter logic[47:0] local_mac,
+    parameter logic[31:0] local_ip
 ) (
     //
     input  logic clk,
@@ -35,7 +36,7 @@ module eth_rx_parser #(
  
     assign rx_tready = 1; // always ready
     
-    // rename ethernet header fields from rx
+    // rename ethernet header fields
     logic[47:0] dest_mac;
     assign dest_mac = {wr_byte[0], wr_byte[1], wr_byte[2], wr_byte[3], wr_byte[4], wr_byte[5]};    
     logic[47:0] src_mac;
@@ -43,7 +44,7 @@ module eth_rx_parser #(
     logic[15:0] frame_type;
     assign frame_type = {wr_byte[12], wr_byte[13]}; 
     
-    // rename arp fields. 
+    // rename arp fields 
     logic[15:0] htype;
     assign htype = {wr_byte[14], wr_byte[15]};
     logic[15:0] ptype;
@@ -63,14 +64,14 @@ module eth_rx_parser #(
     logic[31:0] tpa;
     assign tpa = {wr_byte[38], wr_byte[39], wr_byte[40], wr_byte[41]};
 
-    
+    // detect arp request
     logic arp_cmp;
     assign arp_cmp = ((dest_mac==BROADCAST_MAC) &&  (frame_type==16'h0806) && (tpa==local_ip));
         
     logic dv_in;
     assign dv_in = (rx_tvalid & rx_tready);
  
-    // header parsing
+    // save input header into byte array
     logic[15:0] byte_count=0;
     always_ff @(posedge clk) begin    
     
@@ -109,18 +110,18 @@ module eth_rx_parser #(
     always_ff @(posedge clk) begin 
     
         ipv4_tdata <= rx_tdata;
+        ipv4_tlast <= rx_tlast;
         
         if ((byte_count > 13) && (frame_type == 16'h0800)) begin
             ipv4_tvalid_int <= 1;
         end 
         
-        if ((dv_in) && (rx_tlast)) begin
-            ipv4_tvalid_int <= 0;
-        end
+        if ((dv_in) && (rx_tlast)) ipv4_tvalid_int <= 0;
+
     end
     assign ipv4_tvalid = ipv4_tvalid_int;
     
  
-endmodule : eth_rx_parser
+endmodule
  
 

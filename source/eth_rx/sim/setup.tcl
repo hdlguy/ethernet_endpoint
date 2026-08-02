@@ -7,10 +7,10 @@ set_property target_language Verilog [current_project]
 set_property default_lib work [current_project]
 
 read_verilog -sv ../../ethernet_types_pkg.sv
-read_verilog -sv ../eth_rx_parser.sv
-read_verilog -sv ../eth_rx_parser_tb.sv
+read_verilog -sv ../eth_rx.sv
+read_verilog -sv ../eth_rx_tb.sv
 
-add_files -fileset sim_1 -norecurse ./eth_rx_parser_tb_behav.wcfg
+add_files -fileset sim_1 -norecurse ./eth_rx_tb_behav.wcfg
 
 close_project
 
