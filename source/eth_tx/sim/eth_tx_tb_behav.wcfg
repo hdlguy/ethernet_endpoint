@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="eth_rx_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="eth_rx_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,000.001 ns"></ZoomEndTime>
+      <Cursor1Time time="0.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="276"></NameColumnWidth>
+      <ValueColumnWidth column_width="76"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="26" />
+   <wvobject type="logic" fp_name="/eth_rx_tb/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/arp_trig">
+      <obj_property name="ElementShortName">arp_trig</obj_property>
+      <obj_property name="ObjectShortName">arp_trig</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/arp_tvalid">
+      <obj_property name="ElementShortName">arp_tvalid</obj_property>
+      <obj_property name="ObjectShortName">arp_tvalid</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/arp_tready">
+      <obj_property name="ElementShortName">arp_tready</obj_property>
+      <obj_property name="ObjectShortName">arp_tready</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/arp_sha">
+      <obj_property name="ElementShortName">arp_sha[47:0]</obj_property>
+      <obj_property name="ObjectShortName">arp_sha[47:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/arp_spa">
+      <obj_property name="ElementShortName">arp_spa[31:0]</obj_property>
+      <obj_property name="ObjectShortName">arp_spa[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/arp_tpa">
+      <obj_property name="ElementShortName">arp_tpa[31:0]</obj_property>
+      <obj_property name="ObjectShortName">arp_tpa[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/ipv4_tvalid">
+      <obj_property name="ElementShortName">ipv4_tvalid</obj_property>
+      <obj_property name="ObjectShortName">ipv4_tvalid</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/ipv4_tready">
+      <obj_property name="ElementShortName">ipv4_tready</obj_property>
+      <obj_property name="ObjectShortName">ipv4_tready</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/ipv4_tdata">
+      <obj_property name="ElementShortName">ipv4_tdata[7:0]</obj_property>
+      <obj_property name="ObjectShortName">ipv4_tdata[7:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/ipv4_tlast">
+      <obj_property name="ElementShortName">ipv4_tlast</obj_property>
+      <obj_property name="ObjectShortName">ipv4_tlast</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/tx_tvalid">
+      <obj_property name="ElementShortName">tx_tvalid</obj_property>
+      <obj_property name="ObjectShortName">tx_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/tx_tready">
+      <obj_property name="ElementShortName">tx_tready</obj_property>
+      <obj_property name="ObjectShortName">tx_tready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/tx_tdata">
+      <obj_property name="ElementShortName">tx_tdata[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tx_tdata[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/tx_tlast">
+      <obj_property name="ElementShortName">tx_tlast</obj_property>
+      <obj_property name="ObjectShortName">tx_tlast</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider22" type="divider">
+      <obj_property name="label">uut</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/uut/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/arp_tvalid">
+      <obj_property name="ElementShortName">arp_tvalid</obj_property>
+      <obj_property name="ObjectShortName">arp_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/arp_tready">
+      <obj_property name="ElementShortName">arp_tready</obj_property>
+      <obj_property name="ObjectShortName">arp_tready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/arp_sha">
+      <obj_property name="ElementShortName">arp_sha[47:0]</obj_property>
+      <obj_property name="ObjectShortName">arp_sha[47:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/arp_spa">
+      <obj_property name="ElementShortName">arp_spa[31:0]</obj_property>
+      <obj_property name="ObjectShortName">arp_spa[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/arp_tpa">
+      <obj_property name="ElementShortName">arp_tpa[31:0]</obj_property>
+      <obj_property name="ObjectShortName">arp_tpa[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/uut/sha">
+      <obj_property name="ElementShortName">sha[47:0]</obj_property>
+      <obj_property name="ObjectShortName">sha[47:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/uut/spa">
+      <obj_property name="ElementShortName">spa[31:0]</obj_property>
+      <obj_property name="ObjectShortName">spa[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/uut/tpa">
+      <obj_property name="ElementShortName">tpa[31:0]</obj_property>
+      <obj_property name="ObjectShortName">tpa[31:0]</obj_property>
+   </wvobject>
+</wave_config>

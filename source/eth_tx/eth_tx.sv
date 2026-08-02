@@ -1,5 +1,5 @@
 // eth_tx.sv - this module waits for events on ARP and IPv4 ports and
-// then formats frames to be transmitted by the mac_wrapper module.
+// then formats frames to mac_wrapper for transmission.
 //
 module eth_tx #(
     parameter logic [47:0] local_mac,
@@ -17,7 +17,7 @@ module eth_tx #(
     input   logic       ipv4_tvalid,
     output  logic       ipv4_tready,
     input   logic[7:0]  ipv4_tdata,
-    input   logic       ipv4_tlast
+    input   logic       ipv4_tlast,
     // interface to tx side of mac_wrapper
     output  logic       tx_tvalid,
     input   logic       tx_tready,
@@ -30,7 +30,7 @@ module eth_tx #(
 
     always_ff @(posedge clk) begin
 
-        if ((arp_tvalid) && (arp_tready) begin
+        if ((arp_tvalid) && (arp_tready)) begin
             sha <= arp_sha;
             spa <= arp_spa;
             tpa <= arp_tpa;
@@ -45,13 +45,14 @@ module eth_tx #(
         arp_tready = 0;
 
         case (state) 
+
             0: begin
                 next_state = 1;
             end
 
             1: begin
+                arp_tready = 1;
                 if (arp_tvalid) begin
-                    arp_tready = 1;
                     next_state = 2;
                 end
             end
@@ -59,6 +60,7 @@ module eth_tx #(
             default: begin
                 next_state = 0;
             end
+
         endcase
     end
 
