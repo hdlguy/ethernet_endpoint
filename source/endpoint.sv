@@ -1,14 +1,17 @@
 // endpoint.sv - this is the complete ethernet endpoint incorporating
 // ARP, Ping, and UDP protocols.
 
-import ethernet_types_pkg::*;
+//import ethernet_types_pkg::*;
 
 module endpoint #(
-    parameter logic[47:0] local_mac = {8'h00, 8'h0A, 8'h35, 8'h01, 8'h02, 8'h03}; // a Xilinx mac
-    parameter logic[31:0] local_ip  = {8'h10, 8'h00, 8'h00, 8'h80}; // 16.0.0.128
+    parameter logic[47:0] local_mac = {8'h00, 8'h0A, 8'h35, 8'h01, 8'h02, 8'h03}, // a Xilinx mac
+    parameter logic[31:0] local_ip  = {8'h10, 8'h00, 8'h00, 8'h80} // 16.0.0.128
 ) (
     input   logic       clkin200_p,
     input   logic       clkin200_n,
+    //
+    output  logic       user_clk,
+    output  logic       user_reset,
     // rgmii
     input   logic       rgmii_rx_clk,
     input   logic[3:0]  rgmii_rxd,
@@ -28,11 +31,10 @@ module endpoint #(
     input   logic       udp_tx_tvalid,
     output  logic       udp_tx_tready,
     input   logic[7:0]  udp_tx_tdata,
-    input   logic       udp_tx_tlast,
+    input   logic       udp_tx_tlast
 );
 
 
-    logic user_clk, user_reset;
     logic tx_tvalid, tx_tready, tx_tlast;
     logic[7:0] tx_tdata;
     logic rx_tvalid, rx_tready, rx_tlast;
@@ -76,7 +78,8 @@ module endpoint #(
 
     // rx packet demultiplexor
     logic arp_tvalid, arp_tready;
-    arp_struct arp_tdata;
+    logic[47:0] arp_sha;
+    logic[31:0] arp_spa, arp_tpa;
     logic ipv4_rx_tvalid, ipv4_rx_tready, ipv4_rx_tlast;
     logic[7:0] ipv4_rx_tdata;
     eth_rx #(.local_mac(local_mac), .local_ip(local_ip)) eth_rx_inst (
@@ -84,7 +87,6 @@ module endpoint #(
         .clk            (user_clk),
         .reset          (user_reset),
         // stream interface from mac_wrapper
-        .rx_clk         (user_clk),
         .rx_tvalid      (rx_tvalid),
         .rx_tready      (rx_tready),
         .rx_tdata       (rx_tdata),

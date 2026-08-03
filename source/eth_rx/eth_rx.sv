@@ -1,7 +1,7 @@
 // eth_rx.sv - this module accepts ethernet frames from mac_wrapper. When it detects an ARP
 // request it latches the arp data and signals an arp event. Otherwise, it forwards ipv4 frames.
  
-import ethernet_types_pkg::*;
+//import ethernet_types_pkg::*;
  
 module eth_rx #(
     parameter logic[47:0] local_mac,
