@@ -4,7 +4,7 @@
 import ethernet_types_pkg::*;
 
 module endpoint #(
-    parameter logic[47:0] local_mac = {8'h00, 8'h0A, 8'h35, 8'h01, 8'h02, 8'h03};
+    parameter logic[47:0] local_mac = {8'h00, 8'h0A, 8'h35, 8'h01, 8'h02, 8'h03}; // a Xilinx mac
     parameter logic[31:0] local_ip  = {8'h10, 8'h00, 8'h00, 8'h80}; // 16.0.0.128
 ) (
     input   logic       clkin200_p,
@@ -40,14 +40,14 @@ module endpoint #(
 
     // wrapper with AF MAC, clock generation and fifos
     mac_wrapper mac_wrapper_inst (
-        //
+        // external 200MHz differential clock
         .clkin200_p         (clkin200_p),
         .clkin200_n         (clkin200_n),
-        //
+        // generated clocks and reset
         .refclk             (),
         .user_clk           (user_clk),
         .user_reset         (user_reset),
-        //
+        // external rgmii interface
         .rgmii_rx_clk       (rgmii_rx_clk),
         .rgmii_rxd          (rgmii_rxd),
         .rgmii_rx_ctl       (rgmii_rx_ctl),
@@ -55,13 +55,13 @@ module endpoint #(
         .rgmii_txd          (rgmii_txd),
         .rgmii_tx_ctl       (rgmii_tx_ctl),
         .rgmii_reset_n      (rgmii_reset_n),
-        //
+        // input stream of data for transmit
         .tx_clk             (user_clk),
         .tx_tvalid          (tx_tvalid),
         .tx_tready          (tx_tready),
         .tx_tdata           (tx_tdata),
         .tx_tlast           (tx_tlast),
-        //
+        // output stream of data from receive
         .rx_clk             (user_clk),
         .rx_tvalid          (rx_tvalid),
         .rx_tready          (rx_tready),
@@ -74,7 +74,7 @@ module endpoint #(
         .speed              ()
     );
 
-    // rx packet filter
+    // rx packet demultiplexor
     logic arp_tvalid, arp_tready;
     arp_struct arp_tdata;
     logic ipv4_rx_tvalid, ipv4_rx_tready, ipv4_rx_tlast;
@@ -89,17 +89,17 @@ module endpoint #(
         .rx_tready      (rx_tready),
         .rx_tdata       (rx_tdata),
         .rx_tlast       (rx_tlast),
-        // arp data
+        // arp data received
         .arp_tvalid     (arp_tvalid),
         .arp_tready     (arp_tready),
         .arp_sha        (arp_sha),
         .arp_spa        (arp_spa),
         .arp_tpa        (arp_tpa),
         // ipv4 data received
-        .ipv4_rx_tvalid (ipv4_rx_tvalid),
-        .ipv4_rx_tready (ipv4_rx_tready),
-        .ipv4_rx_tdata  (ipv4_rx_tdata),
-        .ipv4_rx_tlast  (ipv4_rx_tlast)
+        .ipv4_tvalid    (ipv4_rx_tvalid),
+        .ipv4_tready    (ipv4_rx_tready),
+        .ipv4_tdata     (ipv4_rx_tdata),
+        .ipv4_tlast     (ipv4_rx_tlast)
     ); 
 
     // temporary
