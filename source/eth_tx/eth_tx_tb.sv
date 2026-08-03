@@ -3,13 +3,14 @@
 
 import ethernet_types_pkg::*;
 
-module eth_rx_tb();
+module eth_tx_tb();
 
     localparam logic [47:0] local_mac = 48'h00_0A_35_01_02_03;
     localparam logic [31:0] local_ip  = 32'h10_00_00_80;    
     localparam logic [47:0] host_mac  = {8'h94, 8'h10, 8'h3e, 8'hb7, 8'he2, 8'h01};
     localparam logic [31:0] host_ip   = {8'h10, 8'h00, 8'h00, 8'hc8};
     localparam logic [47:0] broadcast_mac  = {8'hff, 8'hff, 8'hff, 8'hff, 8'hff, 8'hff};
+
 
     logic       reset;
     logic       arp_tvalid=0;
@@ -22,7 +23,7 @@ module eth_rx_tb();
     logic[7:0]  ipv4_tdata;
     logic       ipv4_tlast;
     logic       tx_tvalid;
-    logic       tx_tready;
+    logic       tx_tready=0;
     logic[7:0]  tx_tdata;
     logic       tx_tlast;    
 
@@ -30,9 +31,13 @@ module eth_rx_tb();
 
     eth_tx #(.local_mac(local_mac), .local_ip(local_ip)) uut (.*);
     
+    assign ipv4_tvalid = 0;
+    assign ipv4_tdata = 0;
+    assign ipv4_tlast = 0;
+    
     assign arp_sha = host_mac;
     assign arp_spa = host_ip;
-    assign arp_tpa = local_ip;
+    assign arp_tpa = local_ip;    
     
     logic arp_trig;
     initial begin
@@ -51,6 +56,9 @@ module eth_rx_tb();
     end
     
     always_ff @(posedge clk) begin
+    
+        tx_tready <= ~tx_tready;
+        
         if (arp_trig) begin
             arp_tvalid <= 1;
         end else begin
