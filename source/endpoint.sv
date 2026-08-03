@@ -138,7 +138,7 @@ module endpoint #(
     assign ipv4_tx_tlast = 1;
 
     // debug
-    endpoint_ila ila_inst (.clk(user_clk), .probe0({arp_tvalid, arp_tready, arp_sha, arp_spa, arp_tpa})); // 16
+    endpoint_ila ila_inst (.clk(user_clk), .probe0({arp_tvalid, arp_tready, arp_sha, arp_spa, arp_tpa, tx_tvalid, tx_tready, tx_tdata, tx_tlast})); // 125
     
 endmodule
 

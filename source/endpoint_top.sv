@@ -83,10 +83,6 @@ module endpoint_top (
         fan_pwm <= led_count[17] & led_count[16] & led_count[15];
     end    
 
-    
-    // debug
-    mac_ila ila_inst (.clk(user_clk), .probe0({tx_rst, tx_tdata, tx_tvalid, tx_tready, tx_tlast, rx_rst, rx_tdata, rx_tvalid, rx_tready, rx_tlast})); // 24
-
 endmodule
 
 /*

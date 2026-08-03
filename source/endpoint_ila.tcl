@@ -65,10 +65,10 @@ set endpoint_ila [create_ip -name ila -vendor xilinx.com -library ip -version 6.
 # User Parameters
 set_property -dict [list \
   CONFIG.C_ADV_TRIGGER {true} \
-  CONFIG.C_DATA_DEPTH {2048} \
+  CONFIG.C_DATA_DEPTH {1024} \
   CONFIG.C_EN_STRG_QUAL {1} \
   CONFIG.C_INPUT_PIPE_STAGES {2} \
-  CONFIG.C_PROBE0_WIDTH {16} \
+  CONFIG.C_PROBE0_WIDTH {125} \
 ] [get_ips endpoint_ila]
 
 # Runtime Parameters

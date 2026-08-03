@@ -68,7 +68,7 @@ set_property -dict [list \
   CONFIG.C_DATA_DEPTH {4096} \
   CONFIG.C_EN_STRG_QUAL {1} \
   CONFIG.C_INPUT_PIPE_STAGES {2} \
-  CONFIG.C_PROBE0_WIDTH {24} \
+  CONFIG.C_PROBE0_WIDTH {12} \
 ] [get_ips mac_ila]
 
 # Runtime Parameters

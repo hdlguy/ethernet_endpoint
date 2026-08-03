@@ -89,9 +89,10 @@ module eth_tx #(
 
             3: begin
                 arp_active = 1;
-                if (byte_count >= (Larp-1)) begin
+                if ((byte_count >= (Larp-1)) && (tx_tready)) begin
                     next_state = 4;
-                end 
+                end else begin
+                end
             end
 
             4: begin
@@ -114,8 +115,7 @@ module eth_tx #(
     always_ff @(posedge clk) state <= next_state;
 
     logic[15:0] byte_count=0;
-    logic[7:0] tx_tdata_int=0;
-    logic tx_tlast_int=0, tx_tvalid_int=0;
+    logic tx_tvalid_int=0;
     always_ff @(posedge clk) begin
     
         tx_tvalid_int <= arp_active;
@@ -129,18 +129,22 @@ module eth_tx #(
             end
         end
 
-        if (arp_active) begin
-            tx_tdata_int <= arp_bytes[byte_count];
-            tx_tlast_int <= (byte_count == (Larp-1));
-        end else begin
-            tx_tdata_int <= 0;
-            tx_tlast_int <= 0;
-        end
-
     end
-    assign tx_tvalid = tx_tvalid_int;
-    assign tx_tdata = tx_tdata_int;
-    assign tx_tlast = tx_tlast_int;
+    assign tx_tvalid = arp_active;
+    
+    always_comb begin
+        if (arp_active) begin
+            tx_tdata = arp_bytes[byte_count];
+            tx_tlast = (byte_count == (Larp-1));
+        end else begin
+            tx_tdata = 0;
+            tx_tlast = 0;
+        end    
+    end
+    
+    
+    // debug
+//    eth_tx_ila ila_inst(.clk(clk), .probe0({state, byte_count, arp_active, tx_tdata_int, tx_tvalid_int, tx_tlast_int, tx_tready})); // 32
 
 endmodule
 

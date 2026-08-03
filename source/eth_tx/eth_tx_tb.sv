@@ -23,7 +23,7 @@ module eth_tx_tb();
     logic[7:0]  ipv4_tdata;
     logic       ipv4_tlast;
     logic       tx_tvalid;
-    logic       tx_tready=0;
+    logic       tx_tready=1;
     logic[7:0]  tx_tdata;
     logic       tx_tlast;    
 
@@ -57,7 +57,8 @@ module eth_tx_tb();
     
     always_ff @(posedge clk) begin
     
-        tx_tready <= ~tx_tready;
+//        tx_tready <= ~tx_tready;
+        tx_tready <= 1;
         
         if (arp_trig) begin
             arp_tvalid <= 1;
