@@ -21,7 +21,6 @@ module eth_rx #(
     output logic[47:0]  arp_sha,
     output logic[31:0]  arp_spa,
     output logic[31:0]  arp_tpa,    
-    //output arp_struct   arp_tdata,    
     // ipv4 payload passthrough (Ethernet header stripped)
     output logic        ipv4_tvalid,
     input  logic        ipv4_tready,
