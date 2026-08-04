@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="3,000.001 ns"></ZoomEndTime>
-      <Cursor1Time time="0.000 ns"></Cursor1Time>
+      <ZoomEndTime time="4,000.000 ns"></ZoomEndTime>
+      <Cursor1Time time="1,000.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="276"></NameColumnWidth>
-      <ValueColumnWidth column_width="76"></ValueColumnWidth>
+      <ValueColumnWidth column_width="72"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="62" />
+   <WVObjectSize size="65" />
    <wvobject type="logic" fp_name="/eth_rx_tb/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
@@ -106,25 +106,29 @@
       <obj_property name="ElementShortName">arp_req_frame2[0:59][7:0]</obj_property>
       <obj_property name="ObjectShortName">arp_req_frame2[0:59][7:0]</obj_property>
    </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/ping_req_frame">
+      <obj_property name="ElementShortName">ping_req_frame[0:81][7:0]</obj_property>
+      <obj_property name="ObjectShortName">ping_req_frame[0:81][7:0]</obj_property>
+   </wvobject>
    <wvobject type="array" fp_name="/eth_rx_tb/local_mac">
-      <obj_property name="ElementShortName">local_mac[0:5][7:0]</obj_property>
-      <obj_property name="ObjectShortName">local_mac[0:5][7:0]</obj_property>
+      <obj_property name="ElementShortName">local_mac[47:0]</obj_property>
+      <obj_property name="ObjectShortName">local_mac[47:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/eth_rx_tb/local_ip">
-      <obj_property name="ElementShortName">local_ip[0:3][7:0]</obj_property>
-      <obj_property name="ObjectShortName">local_ip[0:3][7:0]</obj_property>
+      <obj_property name="ElementShortName">local_ip[31:0]</obj_property>
+      <obj_property name="ObjectShortName">local_ip[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/eth_rx_tb/host_mac">
-      <obj_property name="ElementShortName">host_mac[0:5][7:0]</obj_property>
-      <obj_property name="ObjectShortName">host_mac[0:5][7:0]</obj_property>
+      <obj_property name="ElementShortName">host_mac[47:0]</obj_property>
+      <obj_property name="ObjectShortName">host_mac[47:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/eth_rx_tb/host_ip">
-      <obj_property name="ElementShortName">host_ip[0:3][7:0]</obj_property>
-      <obj_property name="ObjectShortName">host_ip[0:3][7:0]</obj_property>
+      <obj_property name="ElementShortName">host_ip[31:0]</obj_property>
+      <obj_property name="ObjectShortName">host_ip[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/eth_rx_tb/broadcast_mac">
-      <obj_property name="ElementShortName">broadcast_mac[0:5][7:0]</obj_property>
-      <obj_property name="ObjectShortName">broadcast_mac[0:5][7:0]</obj_property>
+      <obj_property name="ElementShortName">broadcast_mac[47:0]</obj_property>
+      <obj_property name="ObjectShortName">broadcast_mac[47:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/eth_rx_tb/clk_period">
       <obj_property name="ElementShortName">clk_period[63:0]</obj_property>
@@ -161,6 +165,10 @@
    <wvobject type="logic" fp_name="/eth_rx_tb/uut/rx_tlast">
       <obj_property name="ElementShortName">rx_tlast</obj_property>
       <obj_property name="ObjectShortName">rx_tlast</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/uut/dv_in">
+      <obj_property name="ElementShortName">dv_in</obj_property>
+      <obj_property name="ObjectShortName">dv_in</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/eth_rx_tb/uut/arp_tvalid">
       <obj_property name="ElementShortName">arp_tvalid</obj_property>
@@ -253,14 +261,23 @@
    <wvobject type="logic" fp_name="/eth_rx_tb/uut/arp_cmp">
       <obj_property name="ElementShortName">arp_cmp</obj_property>
       <obj_property name="ObjectShortName">arp_cmp</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/eth_rx_tb/uut/dv_in">
-      <obj_property name="ElementShortName">dv_in</obj_property>
-      <obj_property name="ObjectShortName">dv_in</obj_property>
+   <wvobject type="logic" fp_name="/eth_rx_tb/uut/ipv4_cmp">
+      <obj_property name="ElementShortName">ipv4_cmp</obj_property>
+      <obj_property name="ObjectShortName">ipv4_cmp</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/uut/ping_cmp">
+      <obj_property name="ElementShortName">ping_cmp</obj_property>
+      <obj_property name="ObjectShortName">ping_cmp</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/eth_rx_tb/uut/byte_count">
       <obj_property name="ElementShortName">byte_count[15:0]</obj_property>
       <obj_property name="ObjectShortName">byte_count[15:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/eth_rx_tb/uut/arp_tvalid_int">
       <obj_property name="ElementShortName">arp_tvalid_int</obj_property>

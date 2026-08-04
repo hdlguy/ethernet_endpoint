@@ -20,7 +20,13 @@ module eth_rx #(
     input  logic        arp_tready,
     output logic[47:0]  arp_sha,
     output logic[31:0]  arp_spa,
-    output logic[31:0]  arp_tpa,    
+    output logic[31:0]  arp_tpa,     
+    // parsed PING request - one-beat handoff per matching frame
+    output logic        ping_tvalid,
+    input  logic        ping_tready,
+    output logic[47:0]  ping_sha,
+    output logic[31:0]  ping_spa,
+    output logic[31:0]  ping_tpa,    
     // ipv4 payload passthrough (Ethernet header stripped)
     output logic        ipv4_tvalid,
     input  logic        ipv4_tready,
@@ -62,10 +68,27 @@ module eth_rx #(
     assign tha = {wr_byte[32], wr_byte[33], wr_byte[34], wr_byte[35], wr_byte[36], wr_byte[37]};
     logic[31:0] tpa;
     assign tpa = {wr_byte[38], wr_byte[39], wr_byte[40], wr_byte[41]};
+    
+    // rename ping fields
+    logic[7:0] ip_type;
+    assign ip_type = wr_byte[23];
+    logic[7:0] icmp_type;
+    assign icmp_type = wr_byte[34];
+    logic[31:0] ip_src_ip, ip_dest_ip;
+    assign ip_src_ip  = {wr_byte[26], wr_byte[27], wr_byte[28], wr_byte[29]};
+    assign ip_dest_ip = {wr_byte[30], wr_byte[31], wr_byte[32], wr_byte[33]};
 
     // detect arp request
     logic arp_cmp;
-    assign arp_cmp = ((dest_mac==BROADCAST_MAC) &&  (frame_type==16'h0806) && (tpa==local_ip));
+    assign arp_cmp = ((dest_mac==BROADCAST_MAC) &&  (frame_type==16'h0806) && (tpa==local_ip) && (byte_count>13));
+    
+    // detect ipv4 
+    logic ipv4_cmp;
+    assign ipv4_cmp = ((dest_mac==local_mac) && (frame_type==16'h0800) && (byte_count>13));
+        
+    // detect ping 
+    logic ping_cmp;
+    assign ping_cmp = ((dest_mac==local_mac) && (frame_type==16'h0800) && (ip_type==8'h01) && (icmp_type==8'h08) && (byte_count>34));
         
     logic dv_in;
     assign dv_in = (rx_tvalid & rx_tready);
@@ -104,18 +127,44 @@ module eth_rx #(
     end
     assign arp_tvalid = arp_tvalid_int;
     
+    
+
+    // ping handshake
+    logic ping_tvalid_int=0;
+    always_ff @(posedge clk) begin   
+        // latch out ping data and assert tvalid
+        if ((dv_in) && (rx_tlast) && (ping_cmp)) begin
+                ping_tvalid_int <= 1;        
+                ping_sha <= src_mac;
+                ping_spa <= ip_src_ip;
+                ping_tpa <= ip_dest_ip;            
+        end
+        
+        if (ping_tready) ping_tvalid_int <= 0;
+        
+    end
+    assign ping_tvalid = ping_tvalid_int;    
+    
+    
+    
     // ipv4 passthrough
     logic ipv4_tvalid_int=0;
+    logic dv_in_q=0, rx_tlast_q=0;
     always_ff @(posedge clk) begin 
     
         ipv4_tdata <= rx_tdata;
         ipv4_tlast <= rx_tlast;
         
-        if ((byte_count > 13) && (frame_type == 16'h0800)) begin
-            ipv4_tvalid_int <= 1;
-        end 
+        dv_in_q <= dv_in;
+        rx_tlast_q <= rx_tlast;
         
-        if ((dv_in) && (rx_tlast)) ipv4_tvalid_int <= 0;
+        if ((dv_in_q) && (rx_tlast_q)) begin
+            ipv4_tvalid_int <= 0;
+        end else begin
+            if ((byte_count > 13) && (frame_type == 16'h0800)) begin
+                ipv4_tvalid_int <= 1;
+            end 
+        end        
 
     end
     assign ipv4_tvalid = ipv4_tvalid_int;

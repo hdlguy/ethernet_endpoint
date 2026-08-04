@@ -5,11 +5,11 @@ import ethernet_types_pkg::*;
 
 module eth_rx_tb();
 
-    localparam logic [0:5][7:0] local_mac = 48'h00_0A_35_01_02_03;
-    localparam logic [0:3][7:0] local_ip  = 32'h10_00_00_80;    
-    localparam logic [0:5][7:0] host_mac  = {8'h94, 8'h10, 8'h3e, 8'hb7, 8'he2, 8'h01};
-    localparam logic [0:3][7:0] host_ip   = {8'h10, 8'h00, 8'h00, 8'hc8};
-    localparam logic [0:5][7:0] broadcast_mac  = {8'hff, 8'hff, 8'hff, 8'hff, 8'hff, 8'hff};
+    localparam logic [47:0] local_mac = 48'h00_0A_35_01_02_03;
+    localparam logic [31:0] local_ip  = 32'h10_00_00_80;    
+    localparam logic [47:0] host_mac  = 48'h94_10_3e_b7_e2_01;
+    localparam logic [31:0] host_ip   = 32'h10_00_00_c8;
+    localparam logic [47:0] broadcast_mac = 48'hff_ff_ff_ff_ff_ff;
 
     logic       reset;
     logic       rx_tvalid;
@@ -21,6 +21,11 @@ module eth_rx_tb();
     logic[47:0] arp_sha;
     logic[31:0] arp_spa;
     logic[31:0] arp_tpa;
+    logic        ping_tvalid;
+    logic        ping_tready;
+    logic[47:0]  ping_sha;
+    logic[31:0]  ping_spa;
+    logic[31:0]  ping_tpa;        
 //    arp_struct  arp_tdata;
     logic       ipv4_tvalid;
     logic       ipv4_tready;
@@ -61,6 +66,30 @@ module eth_rx_tb();
         {6{8'h00}},
         local_ip+1, // doesn't match local ip so arp rejected
         {18{8'h00}}
+    };    
+    
+    localparam int pinglen = 98-16;
+    
+    logic[0:pinglen-1][7:0] ping_req_frame = {
+        local_mac, 
+        host_mac, 
+        8'h08, 8'h00,
+        8'h45, 8'h00,
+        8'h00, 8'h54,
+        8'h6c, 8'h24,
+        8'h40, 8'h00,
+        8'h40, 8'h01,
+        8'h49, 8'hff,
+        host_ip,
+        local_ip,        
+        8'h08, 8'h00,
+        8'h24, 8'h5b,
+        8'h57, 8'h48,
+        8'h00, 8'h10,
+        128'h9d_cd_71_6a_00_00_00_00_a2_41_0c_00_00_00_00_00,
+        64'h10_11_12_13_14_15_16_17_18_19_1a_1b_1c_1d_1e_1f,
+        64'h20_21_22_23_24_25_26_27_28_29_2a_2b_2c_2d_2e_2f,
+        64'h30_31_32_33_34_35_36_37
     };
 
     initial begin
@@ -75,6 +104,7 @@ module eth_rx_tb();
         
         forever begin
 
+            // valid arp request
             for (int i=0; i<arplen; i++) begin
                 rx_tvalid = 1;
                 rx_tdata = arp_req_frame[i];
@@ -85,7 +115,9 @@ module eth_rx_tb();
             rx_tdata = 8'bxxxx_xxxx;
             rx_tlast = 1'bx;
             #(clk_period*20);
+            
 
+            // invalid arp request
             for (int i=0; i<arplen; i++) begin
                 rx_tvalid = 1;
                 rx_tdata = arp_req_frame2[i];
@@ -96,14 +128,28 @@ module eth_rx_tb();
             rx_tdata = 8'bxxxx_xxxx;
             rx_tlast = 1'bx;
             #(clk_period*20);
+            
+            
+            // ping request
+            for (int i=0; i<pinglen; i++) begin
+                rx_tvalid = 1;
+                rx_tdata = ping_req_frame[i];
+                if (i==(pinglen-1)) rx_tlast=1; else rx_tlast=0;
+                #(clk_period*1);
+            end
+            rx_tvalid = 0;
+            rx_tdata = 8'bxxxx_xxxx;
+            rx_tlast = 1'bx;
+            #(clk_period*20);            
                 
         end
         
     end
     
-    // acknowledge arp
+    // acknowledge arp and ping
     always_ff @(posedge clk) begin
-        arp_tready <= arp_tvalid;
+        arp_tready  <= arp_tvalid;
+        ping_tready <= ping_tvalid;
     end
     
     assign ipv4_tready = 1;
