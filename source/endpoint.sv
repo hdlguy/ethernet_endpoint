@@ -76,12 +76,16 @@ module endpoint #(
         .speed              ()
     );
 
-    // rx packet demultiplexor
+    logic ping_tvalid, ping_tready;
+    logic[47:0] ping_sha;
+    logic[31:0]  ping_tpa, ping_spa;
     logic arp_tvalid, arp_tready;
     logic[47:0] arp_sha;
     logic[31:0] arp_spa, arp_tpa;
     logic ipv4_rx_tvalid, ipv4_rx_tready, ipv4_rx_tlast;
     logic[7:0] ipv4_rx_tdata;
+
+    // rx packet demultiplexor
     eth_rx #(.local_mac(local_mac), .local_ip(local_ip)) eth_rx_inst (
         //
         .clk            (user_clk),
@@ -97,6 +101,12 @@ module endpoint #(
         .arp_sha        (arp_sha),
         .arp_spa        (arp_spa),
         .arp_tpa        (arp_tpa),
+        // ping data received
+        .ping_tvalid     (ping_tvalid),
+        .ping_tready     (ping_tready),
+        .ping_sha        (ping_sha),
+        .ping_spa        (ping_spa),
+        .ping_tpa        (ping_tpa),
         // ipv4 data received
         .ipv4_tvalid    (ipv4_rx_tvalid),
         .ipv4_tready    (ipv4_rx_tready),
@@ -106,6 +116,7 @@ module endpoint #(
 
     // temporary
     assign ipv4_rx_tready = 1;
+    always_ff @(posedge user_clk) ping_tready = ping_tvalid;
 
     // tx packet multiplexor
     logic ipv4_tx_tvalid, ipv4_tx_tready, ipv4_tx_tlast;
@@ -138,7 +149,8 @@ module endpoint #(
     assign ipv4_tx_tlast = 1;
 
     // debug
-    endpoint_ila ila_inst (.clk(user_clk), .probe0({arp_tvalid, arp_tready, arp_sha, arp_spa, arp_tpa, tx_tvalid, tx_tready, tx_tdata, tx_tlast})); // 125
+    //endpoint_ila ila_inst (.clk(user_clk), .probe0({arp_tvalid, arp_tready, arp_sha, arp_spa, arp_tpa, tx_tvalid, tx_tready, tx_tdata, tx_tlast})); // 125
+    endpoint_ila ila_inst (.clk(user_clk), .probe0({ping_tvalid, ping_tready, ping_sha, ping_spa, ping_tpa, tx_tvalid, tx_tready, tx_tdata, tx_tlast})); // 125
     
 endmodule
 

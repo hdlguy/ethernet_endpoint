@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="4,000.000 ns"></ZoomEndTime>
-      <Cursor1Time time="1,000.000 ns"></Cursor1Time>
+      <ZoomEndTime time="11,950.001 ns"></ZoomEndTime>
+      <Cursor1Time time="0.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="276"></NameColumnWidth>
       <ValueColumnWidth column_width="72"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="65" />
+   <WVObjectSize size="70" />
    <wvobject type="logic" fp_name="/eth_rx_tb/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
@@ -68,6 +68,36 @@
       <obj_property name="ElementShortName">arp_tpa[31:0]</obj_property>
       <obj_property name="ObjectShortName">arp_tpa[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/ping_tvalid">
+      <obj_property name="ElementShortName">ping_tvalid</obj_property>
+      <obj_property name="ObjectShortName">ping_tvalid</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_rx_tb/ping_tready">
+      <obj_property name="ElementShortName">ping_tready</obj_property>
+      <obj_property name="ObjectShortName">ping_tready</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/ping_sha">
+      <obj_property name="ElementShortName">ping_sha[47:0]</obj_property>
+      <obj_property name="ObjectShortName">ping_sha[47:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/ping_spa">
+      <obj_property name="ElementShortName">ping_spa[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ping_spa[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_rx_tb/ping_tpa">
+      <obj_property name="ElementShortName">ping_tpa[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ping_tpa[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/eth_rx_tb/ipv4_tvalid">
@@ -273,6 +303,8 @@
    <wvobject type="logic" fp_name="/eth_rx_tb/uut/ping_cmp">
       <obj_property name="ElementShortName">ping_cmp</obj_property>
       <obj_property name="ObjectShortName">ping_cmp</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/eth_rx_tb/uut/byte_count">
       <obj_property name="ElementShortName">byte_count[15:0]</obj_property>
