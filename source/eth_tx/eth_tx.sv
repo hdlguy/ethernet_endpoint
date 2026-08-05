@@ -54,6 +54,17 @@ module eth_tx #(
 
     end
 
+    // assign values to the 98 byte ping frame.
+    localparam int Lping = 98;
+    logic[0:Lping-1][7:0] ping_bytes;
+    assign ping_bytes[ 0: 5] = sha;
+    assign ping_bytes[ 6:11] = local_mac;
+    assign ping_bytes[12:13] = 16'h0800;
+    assign ping_bytes[   14] = 8'h45;
+    assign ping_bytes[   15] = 8'h00;
+    assign ping_bytes[16:17] = 16'h0054;
+
+
     // assign values to the 42 byte arp frame.
     localparam int Larp = 42;
     logic[0:Larp-1][7:0] arp_bytes;
@@ -69,16 +80,6 @@ module eth_tx #(
     assign arp_bytes[28:31] = tpa; //local_ip;
     assign arp_bytes[32:37] = sha;
     assign arp_bytes[38:41] = spa;
-
-    // assign values to the 98 byte ping frame.
-    localparam int Lping = 98;
-    logic[0:Lping-1][7:0] ping_bytes;
-    assign ping_bytes[ 0: 5] = sha;
-    assign ping_bytes[ 6:11] = local_mac;
-    assign ping_bytes[12:13] = 16'h0800;
-    assign ping_bytes[   14] = 8'h45;
-    assign ping_bytes[   15] = 8'h00;
-
 
     // a state machine
     logic clear_count, arp_active;

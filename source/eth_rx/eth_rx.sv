@@ -27,6 +27,8 @@ module eth_rx #(
     output logic[47:0]  ping_sha,
     output logic[31:0]  ping_spa,
     output logic[31:0]  ping_tpa,    
+    output  logic[15:0] ping_id,
+    output  logic[15:0] ping_seq,
     // ipv4 payload passthrough (Ethernet header stripped)
     output logic        ipv4_tvalid,
     input  logic        ipv4_tready,
@@ -36,6 +38,7 @@ module eth_rx #(
  
     localparam logic [47:0] BROADCAST_MAC = 48'hFF_FF_FF_FF_FF_FF;    
     localparam int Narp = 42;  // the number of bytes in an Arp packet.
+    localparam int Nping = 98;  // the number of bytes in an ping packet.
 
     logic[Narp-1:0][7:0] wr_byte = 0; // byte array.
  
@@ -77,22 +80,13 @@ module eth_rx #(
     logic[31:0] ip_src_ip, ip_dest_ip;
     assign ip_src_ip  = {wr_byte[26], wr_byte[27], wr_byte[28], wr_byte[29]};
     assign ip_dest_ip = {wr_byte[30], wr_byte[31], wr_byte[32], wr_byte[33]};
+    logic[15:0] icmp_id;
+    assign icmp_id = {wr_byte[38], wr_byte[39]};
+    logic[15:0] icmp_seq;
+    assign icmp_seq = {wr_byte[40], wr_byte[41]};
 
-    // detect arp request
-    logic arp_cmp;
-    assign arp_cmp = ((dest_mac==BROADCAST_MAC) &&  (frame_type==16'h0806) && (tpa==local_ip) && (byte_count>13));
     
-    // detect ipv4 
-    logic ipv4_cmp;
-    assign ipv4_cmp = ((dest_mac==local_mac) && (frame_type==16'h0800) && (byte_count>13));
-        
-    // detect ping 
-    logic ping_cmp;
-    assign ping_cmp = ((dest_mac==local_mac) && (frame_type==16'h0800) && (ip_type==8'h01) && (icmp_type==8'h08) && (byte_count>34));
-        
-    logic dv_in;
-    assign dv_in = (rx_tvalid & rx_tready);
- 
+
     // save input header into byte array
     logic[15:0] byte_count=0;
     always_ff @(posedge clk) begin    
@@ -110,6 +104,23 @@ module eth_rx #(
         end
         
     end
+    
+    
+    // detect arp request
+    logic arp_cmp;
+    assign arp_cmp = ((dest_mac==BROADCAST_MAC) &&  (frame_type==16'h0806) && (tpa==local_ip) && (byte_count>13));
+    
+    // detect ipv4 
+    logic ipv4_cmp;
+    assign ipv4_cmp = ((dest_mac==local_mac) && (frame_type==16'h0800) && (byte_count>13));
+        
+    // detect ping 
+    logic ping_cmp;
+    assign ping_cmp = ((dest_mac==local_mac) && (frame_type==16'h0800) && (ip_type==8'h01) && (icmp_type==8'h08) && (byte_count>34));
+        
+    logic dv_in;
+    assign dv_in = (rx_tvalid & rx_tready);
+
     
     // arp handshake
     logic arp_tvalid_int=0;
@@ -138,6 +149,8 @@ module eth_rx #(
                 ping_sha <= src_mac;
                 ping_spa <= ip_src_ip;
                 ping_tpa <= ip_dest_ip;            
+                ping_id  <= icmp_id;
+                ping_seq <= icmp_seq;
         end
         
         if (ping_tready) ping_tvalid_int <= 0;

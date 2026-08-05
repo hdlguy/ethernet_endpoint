@@ -5,12 +5,12 @@ module ping_rx (
 endmodule
 
 /* ping request from workstation 192.168.1.197(C0 A8 01 C5) to 192.168.1.112(C0 A8 01 70)
-Ethernet frame
+Ethernet frame [0:13]
 30 05 5c 22 58 43 - printer (destination)
 00 d8 61 59 63 7a - linux workstation 00:d8:61:59:63:7a
 08 00 - type = ethertype
 
-IP Header
+IP Header [14:33]
 45 - version and header length
 00 - servides
 00 54 - total length
@@ -22,7 +22,7 @@ IP Header
 c0 a8 01 c5 - source address, linux ip
 c0 a8 01 70 - destination, printer ip
 
-ICMP
+ICMP [34:97]
 08 - type = ping request
 00 - code = 0
 24 5b - checksum
