@@ -13,6 +13,12 @@ module eth_tx #(
     input   logic[47:0] arp_sha,
     input   logic[31:0] arp_spa,
     input   logic[31:0] arp_tpa,
+    // ping data from eth_rx
+    input   logic       ping_tvalid,
+    output  logic       ping_tready,
+    input   logic[47:0] ping_sha,
+    input   logic[31:0] ping_spa,
+    input   logic[31:0] ping_tpa,
     // IPv4 data
     input   logic       ipv4_tvalid,
     output  logic       ipv4_tready,
@@ -28,15 +34,24 @@ module eth_tx #(
     // temporary
     assign ipv4_tready = 0;
 
-    // latch the sender hardware address, sender protocol address and target protocol address
     logic[47:0] sha;
     logic[31:0] spa, tpa;
     always_ff @(posedge clk) begin
+
+        // latch the arp data
         if ((arp_tvalid) && (arp_tready)) begin
             sha <= arp_sha;
             spa <= arp_spa;
             tpa <= arp_tpa;
         end
+
+        // latch the ping data
+        if ((ping_tvalid) && (ping_tready)) begin
+            sha <= ping_sha;
+            spa <= ping_spa;
+            tpa <= ping_tpa;
+        end
+
     end
 
     // assign values to the 42 byte arp frame.
@@ -54,6 +69,15 @@ module eth_tx #(
     assign arp_bytes[28:31] = tpa; //local_ip;
     assign arp_bytes[32:37] = sha;
     assign arp_bytes[38:41] = spa;
+
+    // assign values to the 98 byte ping frame.
+    localparam int Lping = 98;
+    logic[0:Lping-1][7:0] ping_bytes;
+    assign ping_bytes[ 0: 5] = sha;
+    assign ping_bytes[ 6:11] = local_mac;
+    assign ping_bytes[12:13] = 16'h0800;
+    assign ping_bytes[   14] = 8'h45;
+    assign ping_bytes[   15] = 8'h00;
 
 
     // a state machine
@@ -91,12 +115,30 @@ module eth_tx #(
                 arp_active = 1;
                 if ((byte_count >= (Larp-1)) && (tx_tready)) begin
                     next_state = 4;
-                end else begin
                 end
             end
 
+
+            // check if an ping event is waiting
             4: begin
-                next_state = 0;
+                if (ping_tvalid) begin
+                    next_state = 5;
+                    ping_tready = 1;
+                end else begin
+                    next_state = 8;
+                end
+            end
+
+            5: begin
+                next_state = 6;
+                clear_count = 1;
+            end
+
+            6: begin
+                ping_active = 1;
+                if ((byte_count >= (Lping-1)) && (tx_tready)) begin
+                    next_state = 8;
+                end
             end
             
             
@@ -114,13 +156,9 @@ module eth_tx #(
 
     always_ff @(posedge clk) state <= next_state;
 
+    // byte counter
     logic[15:0] byte_count=0;
-    logic tx_tvalid_int=0;
     always_ff @(posedge clk) begin
-    
-        tx_tvalid_int <= arp_active;
-
-        // byte counter
         if (clear_count) begin
             byte_count <= 0;
         end else begin
@@ -128,9 +166,9 @@ module eth_tx #(
                 byte_count <= byte_count + 1;
             end
         end
-
     end
-    assign tx_tvalid = arp_active;
+    assign tx_tvalid = arp_active | ping_active;
+
     
     always_comb begin
         if (arp_active) begin
