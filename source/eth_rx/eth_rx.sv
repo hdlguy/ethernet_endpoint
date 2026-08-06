@@ -27,8 +27,9 @@ module eth_rx #(
     output logic[47:0]  ping_sha,
     output logic[31:0]  ping_spa,
     output logic[31:0]  ping_tpa,    
-    output  logic[15:0] ping_id,
-    output  logic[15:0] ping_seq,
+    output logic[15:0]  ping_id,
+    output logic[15:0]  ping_seq,    
+    output logic[127:0] ping_time,
     // ipv4 payload passthrough (Ethernet header stripped)
     output logic        ipv4_tvalid,
     input  logic        ipv4_tready,
@@ -40,7 +41,7 @@ module eth_rx #(
     localparam int Narp = 42;  // the number of bytes in an Arp packet.
     localparam int Nping = 98;  // the number of bytes in an ping packet.
 
-    logic[Narp-1:0][7:0] wr_byte = 0; // byte array.
+    logic[Nping-1:0][7:0] wr_byte = 0; // byte array.
  
     assign rx_tready = 1; // always ready
     
@@ -84,7 +85,8 @@ module eth_rx #(
     assign icmp_id = {wr_byte[38], wr_byte[39]};
     logic[15:0] icmp_seq;
     assign icmp_seq = {wr_byte[40], wr_byte[41]};
-
+    logic[127:0] icmp_time;
+    assign icmp_time = {wr_byte[42], wr_byte[43], wr_byte[44], wr_byte[45], wr_byte[46], wr_byte[47], wr_byte[48], wr_byte[49], wr_byte[50], wr_byte[51], wr_byte[52], wr_byte[53], wr_byte[54], wr_byte[55], wr_byte[56], wr_byte[57]};
     
 
     // save input header into byte array
@@ -151,6 +153,7 @@ module eth_rx #(
                 ping_tpa <= ip_dest_ip;            
                 ping_id  <= icmp_id;
                 ping_seq <= icmp_seq;
+                ping_time <= icmp_time;
         end
         
         if (ping_tready) ping_tvalid_int <= 0;

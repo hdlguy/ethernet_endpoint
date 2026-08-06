@@ -19,6 +19,8 @@ module eth_tx #(
     input   logic[47:0] ping_sha,
     input   logic[31:0] ping_spa,
     input   logic[31:0] ping_tpa,
+    output  logic[15:0] ping_id,
+    output  logic[15:0] ping_seq,
     // IPv4 data
     input   logic       ipv4_tvalid,
     output  logic       ipv4_tready,
@@ -38,18 +40,20 @@ module eth_tx #(
     logic[31:0] spa, tpa;
     always_ff @(posedge clk) begin
 
-        // latch the arp data
+        // latch the arp data from the event
         if ((arp_tvalid) && (arp_tready)) begin
             sha <= arp_sha;
             spa <= arp_spa;
             tpa <= arp_tpa;
         end
 
-        // latch the ping data
+        // latch the ping data from the event
         if ((ping_tvalid) && (ping_tready)) begin
             sha <= ping_sha;
             spa <= ping_spa;
             tpa <= ping_tpa;
+            id  <= ping_id;
+            seq <= ping_seq;
         end
 
     end
@@ -63,6 +67,10 @@ module eth_tx #(
     assign ping_bytes[   14] = 8'h45;
     assign ping_bytes[   15] = 8'h00;
     assign ping_bytes[16:17] = 16'h0054;
+    assign ping_bytes[18:19] = 16'h2455;
+    assign ping_bytes[20:21] = 16'h0000;
+    assign ping_bytes[   22] = 8'hff;
+    assign ping_bytes[   23] = 8'h01;
 
 
     // assign values to the 42 byte arp frame.
