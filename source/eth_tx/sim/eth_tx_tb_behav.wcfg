@@ -6,20 +6,21 @@
       <db_ref path="eth_tx_tb_behav.wdb" id="1">
          <top_modules>
             <top_module name="eth_tx_tb" />
+            <top_module name="ethernet_types_pkg" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="593.619 ns"></ZoomEndTime>
+      <ZoomEndTime time="10,000.001 ns"></ZoomEndTime>
       <Cursor1Time time="0.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="276"></NameColumnWidth>
-      <ValueColumnWidth column_width="68"></ValueColumnWidth>
+      <ValueColumnWidth column_width="64"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="18" />
+   <WVObjectSize size="20" />
    <wvobject type="logic" fp_name="/eth_tx_tb/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
@@ -27,6 +28,10 @@
    <wvobject type="logic" fp_name="/eth_tx_tb/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_tx_tb/arp_trig">
+      <obj_property name="ElementShortName">arp_trig</obj_property>
+      <obj_property name="ObjectShortName">arp_trig</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/eth_tx_tb/arp_tvalid">
       <obj_property name="ElementShortName">arp_tvalid</obj_property>
@@ -36,17 +41,27 @@
       <obj_property name="ElementShortName">arp_tready</obj_property>
       <obj_property name="ObjectShortName">arp_tready</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/eth_tx_tb/arp_sha">
-      <obj_property name="ElementShortName">arp_sha[47:0]</obj_property>
-      <obj_property name="ObjectShortName">arp_sha[47:0]</obj_property>
+   <wvobject type="array" fp_name="/eth_tx_tb/arp_tdata">
+      <obj_property name="ElementShortName">arp_tdata</obj_property>
+      <obj_property name="ObjectShortName">arp_tdata</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/eth_tx_tb/arp_spa">
-      <obj_property name="ElementShortName">arp_spa[31:0]</obj_property>
-      <obj_property name="ObjectShortName">arp_spa[31:0]</obj_property>
+   <wvobject type="logic" fp_name="/eth_tx_tb/ping_trig">
+      <obj_property name="ElementShortName">ping_trig</obj_property>
+      <obj_property name="ObjectShortName">ping_trig</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/eth_tx_tb/arp_tpa">
-      <obj_property name="ElementShortName">arp_tpa[31:0]</obj_property>
-      <obj_property name="ObjectShortName">arp_tpa[31:0]</obj_property>
+   <wvobject type="logic" fp_name="/eth_tx_tb/ping_tvalid">
+      <obj_property name="ElementShortName">ping_tvalid</obj_property>
+      <obj_property name="ObjectShortName">ping_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/eth_tx_tb/ping_tready">
+      <obj_property name="ElementShortName">ping_tready</obj_property>
+      <obj_property name="ObjectShortName">ping_tready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/eth_tx_tb/ping_tdata">
+      <obj_property name="ElementShortName">ping_tdata</obj_property>
+      <obj_property name="ObjectShortName">ping_tdata</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/eth_tx_tb/tx_tvalid">
       <obj_property name="ElementShortName">tx_tvalid</obj_property>
@@ -81,16 +96,13 @@
       <obj_property name="ElementShortName">arp_active</obj_property>
       <obj_property name="ObjectShortName">arp_active</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/eth_tx_tb/uut/sha">
-      <obj_property name="ElementShortName">sha[47:0]</obj_property>
-      <obj_property name="ObjectShortName">sha[47:0]</obj_property>
+   <wvobject type="logic" fp_name="/eth_tx_tb/uut/ping_active">
+      <obj_property name="ElementShortName">ping_active</obj_property>
+      <obj_property name="ObjectShortName">ping_active</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/eth_tx_tb/uut/spa">
-      <obj_property name="ElementShortName">spa[31:0]</obj_property>
-      <obj_property name="ObjectShortName">spa[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/eth_tx_tb/uut/tpa">
-      <obj_property name="ElementShortName">tpa[31:0]</obj_property>
-      <obj_property name="ObjectShortName">tpa[31:0]</obj_property>
+   <wvobject type="array" fp_name="/eth_tx_tb/uut/ping_data">
+      <obj_property name="ElementShortName">ping_data</obj_property>
+      <obj_property name="ObjectShortName">ping_data</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
 </wave_config>

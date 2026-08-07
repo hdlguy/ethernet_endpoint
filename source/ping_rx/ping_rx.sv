@@ -52,7 +52,7 @@ ff - TTL
 c0 a8 01 70 - printer IP
 c0 a8 01 c5 - workstation IP
 
-ICMP [34:97]
+ICMP [34:57]
 00 - echo reply
 00 - code
 2c 5b - checksum
@@ -60,6 +60,7 @@ ICMP [34:97]
 00 10 - sequence number
 9d cd 71 6a 00 00 00 00 a2 41 0c 00 00 00 00 00 - timestamp
 
+DATA [58:97]
 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f 20 21 22 23 24 25 26 27 28 29 2a 2b 2c 2d 2e 2f 30 31 32 33 34 35 36 37 - data (40 bytes)
 */
 

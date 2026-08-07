@@ -1,6 +1,8 @@
 // eth_tx.sv - this module waits for events on the ARP and IPv4 interfaces and
 // then formats frames to mac_wrapper for transmission.
 //
+import ethernet_types_pkg::*;
+
 module eth_tx #(
     parameter logic [47:0] local_mac,
     parameter logic [31:0] local_ip
@@ -10,18 +12,11 @@ module eth_tx #(
     // arp data from eth_rx
     input   logic       arp_tvalid,
     output  logic       arp_tready,
-    input   logic[47:0] arp_sha,
-    input   logic[31:0] arp_spa,
-    input   logic[31:0] arp_tpa,
+    input   arp_struct  arp_tdata,
     // ping data from eth_rx
     input  logic        ping_tvalid,
     output logic        ping_tready,
-    input  logic[47:0]  ping_sha,
-    input  logic[31:0]  ping_spa,
-    input  logic[31:0]  ping_tpa,
-    input  logic[15:0]  ping_id,
-    input  logic[15:0]  ping_seq,
-    input  logic[127:0] ping_ts,
+    input   ping_struct ping_tdata,
     // IPv4 data
     input   logic       ipv4_tvalid,
     output  logic       ipv4_tready,
@@ -37,27 +32,18 @@ module eth_tx #(
     // temporary
     assign ipv4_tready = 0;
 
-    logic[47:0] sha;
-    logic[31:0] spa, tpa;
-    logic[15:0] id, seq;
-    logic[127:0] time;
+    arp_struct arp_data;
+    ping_struct ping_data;
     always_ff @(posedge clk) begin
 
         // latch the arp data from the event
         if ((arp_tvalid) && (arp_tready)) begin
-            sha <= arp_sha;
-            spa <= arp_spa;
-            tpa <= arp_tpa;
+            arp_data <= arp_tdata;
         end
 
         // latch the ping data from the event
         if ((ping_tvalid) && (ping_tready)) begin
-            sha <= ping_sha;
-            spa <= ping_spa;
-            tpa <= ping_tpa;
-            id  <= ping_id;
-            seq <= ping_seq;
-            ts  <= ping_ts;
+            ping_data <= ping_tdata;
         end
 
     end
@@ -65,7 +51,7 @@ module eth_tx #(
     // assign values to the 98 byte ping frame.
     localparam int Lping = 98;
     logic[0:Lping-1][7:0] ping_bytes;
-    assign ping_bytes[ 0: 5] = sha;
+    assign ping_bytes[ 0: 5] = ping_data.sha;
     assign ping_bytes[ 6:11] = local_mac;
     assign ping_bytes[12:13] = 16'h0800;
     assign ping_bytes[   14] = 8'h45;
@@ -75,12 +61,22 @@ module eth_tx #(
     assign ping_bytes[20:21] = 16'h0000;
     assign ping_bytes[   22] = 8'hff;
     assign ping_bytes[   23] = 8'h01;
+    assign ping_bytes[24:25] = 16'h12ce; // checksum
+    assign ping_bytes[26:29] = ping_data.tpa;
+    assign ping_bytes[30:33] = ping_data.spa;
+    assign ping_bytes[   34] = 8'h01; // echo reply
+    assign ping_bytes[   35] = 8'h00; // code
+    assign ping_bytes[36:37] = 16'h2c5b; // checksum
+    assign ping_bytes[38:39] = ping_data.id;
+    assign ping_bytes[40:41] = ping_data.seq;
+    assign ping_bytes[42:57] = ping_data.ts;    
+    assign ping_bytes[58:97] = 0; // data
 
 
     // assign values to the 42 byte arp frame.
     localparam int Larp = 42;
     logic[0:Larp-1][7:0] arp_bytes;
-    assign arp_bytes[ 0: 5] = sha;
+    assign arp_bytes[ 0: 5] = arp_data.sha;
     assign arp_bytes[ 6:11] = local_mac;
     assign arp_bytes[12:13] = 16'h0806;
     assign arp_bytes[14:15] = 16'h0001;
@@ -89,12 +85,14 @@ module eth_tx #(
     assign arp_bytes[   19] = 8'h04;
     assign arp_bytes[20:21] = 16'h0002;
     assign arp_bytes[22:27] = local_mac;
-    assign arp_bytes[28:31] = tpa; //local_ip;
-    assign arp_bytes[32:37] = sha;
-    assign arp_bytes[38:41] = spa;
+    assign arp_bytes[28:31] = arp_data.tpa; //local_ip;
+    assign arp_bytes[32:37] = arp_data.sha;
+    assign arp_bytes[38:41] = arp_data.spa;
+
 
     // a state machine
-    logic clear_count, arp_active;
+    logic[15:0] byte_count=0;
+    logic clear_count, arp_active, ping_active;
     logic[3:0] state=0, next_state;
     always_comb begin
         // defaults
@@ -102,6 +100,8 @@ module eth_tx #(
         arp_tready = 0;
         clear_count = 0;
         arp_active = 0;
+        ping_tready = 0;
+        ping_active = 0;
 
         case (state) 
 
@@ -157,8 +157,25 @@ module eth_tx #(
             
             // check if an ipv4 event is waiting
             8:begin
-                next_state = 0;
+                if (ping_tvalid) begin
+                    next_state = 9;
+                    ping_tready = 1;
+                end else begin
+                    next_state = 12;
+                end
             end
+            
+            9: begin
+                next_state = 10;
+                clear_count = 1;
+            end
+            
+            10: begin
+                ping_active = 1;
+                if ((byte_count >= (Lping-1)) && (tx_tready)) begin
+                    next_state = 12;
+                end
+            end                        
 
             default: begin
                 next_state = 0;
@@ -170,7 +187,6 @@ module eth_tx #(
     always_ff @(posedge clk) state <= next_state;
 
     // byte counter
-    logic[15:0] byte_count=0;
     always_ff @(posedge clk) begin
         if (clear_count) begin
             byte_count <= 0;
@@ -188,8 +204,13 @@ module eth_tx #(
             tx_tdata = arp_bytes[byte_count];
             tx_tlast = (byte_count == (Larp-1));
         end else begin
-            tx_tdata = 0;
-            tx_tlast = 0;
+            if (ping_active) begin
+                tx_tdata = ping_bytes[byte_count];
+                tx_tlast = (byte_count == (Lping-1));
+            end else begin
+                tx_tdata = 0;
+                tx_tlast = 0;
+            end
         end    
     end
     
