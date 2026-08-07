@@ -18,9 +18,7 @@ module eth_rx #(
     // parsed ARP request - one-beat handoff per matching frame
     output logic        arp_tvalid,
     input  logic        arp_tready,
-    output logic[47:0]  arp_sha,
-    output logic[31:0]  arp_spa,
-    output logic[31:0]  arp_tpa,     
+    output arp_struct   arp_tdata,    
     // parsed PING request - one-beat handoff per matching frame
     output logic        ping_tvalid,
     input  logic        ping_tready,
@@ -29,7 +27,7 @@ module eth_rx #(
     output logic[31:0]  ping_tpa,    
     output logic[15:0]  ping_id,
     output logic[15:0]  ping_seq,    
-    output logic[127:0] ping_time,
+    output logic[127:0] ping_ts,
     // ipv4 payload passthrough (Ethernet header stripped)
     output logic        ipv4_tvalid,
     input  logic        ipv4_tready,
@@ -85,8 +83,8 @@ module eth_rx #(
     assign icmp_id = {wr_byte[38], wr_byte[39]};
     logic[15:0] icmp_seq;
     assign icmp_seq = {wr_byte[40], wr_byte[41]};
-    logic[127:0] icmp_time;
-    assign icmp_time = {wr_byte[42], wr_byte[43], wr_byte[44], wr_byte[45], wr_byte[46], wr_byte[47], wr_byte[48], wr_byte[49], wr_byte[50], wr_byte[51], wr_byte[52], wr_byte[53], wr_byte[54], wr_byte[55], wr_byte[56], wr_byte[57]};
+    logic[127:0] icmp_ts;
+    assign icmp_ts = {wr_byte[42], wr_byte[43], wr_byte[44], wr_byte[45], wr_byte[46], wr_byte[47], wr_byte[48], wr_byte[49], wr_byte[50], wr_byte[51], wr_byte[52], wr_byte[53], wr_byte[54], wr_byte[55], wr_byte[56], wr_byte[57]};
     
 
     // save input header into byte array
@@ -129,10 +127,10 @@ module eth_rx #(
     always_ff @(posedge clk) begin   
         // latch out arp data and assert tvalid
         if ((dv_in) && (rx_tlast) && (arp_cmp)) begin
-                arp_tvalid_int <= 1;        
-                arp_sha <= sha;
-                arp_spa <= spa;
-                arp_tpa <= tpa;            
+                arp_tvalid_int <= 1;
+                arp_tdata.sha <= sha;    
+                arp_tdata.spa <= spa;    
+                arp_tdata.tpa <= tpa;                  
         end
         
         if (arp_tready) arp_tvalid_int <= 0;
@@ -153,7 +151,7 @@ module eth_rx #(
                 ping_tpa <= ip_dest_ip;            
                 ping_id  <= icmp_id;
                 ping_seq <= icmp_seq;
-                ping_time <= icmp_time;
+                ping_ts  <= icmp_ts;
         end
         
         if (ping_tready) ping_tvalid_int <= 0;

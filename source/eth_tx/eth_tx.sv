@@ -14,13 +14,14 @@ module eth_tx #(
     input   logic[31:0] arp_spa,
     input   logic[31:0] arp_tpa,
     // ping data from eth_rx
-    input   logic       ping_tvalid,
-    output  logic       ping_tready,
-    input   logic[47:0] ping_sha,
-    input   logic[31:0] ping_spa,
-    input   logic[31:0] ping_tpa,
-    output  logic[15:0] ping_id,
-    output  logic[15:0] ping_seq,
+    input  logic        ping_tvalid,
+    output logic        ping_tready,
+    input  logic[47:0]  ping_sha,
+    input  logic[31:0]  ping_spa,
+    input  logic[31:0]  ping_tpa,
+    input  logic[15:0]  ping_id,
+    input  logic[15:0]  ping_seq,
+    input  logic[127:0] ping_ts,
     // IPv4 data
     input   logic       ipv4_tvalid,
     output  logic       ipv4_tready,
@@ -38,6 +39,8 @@ module eth_tx #(
 
     logic[47:0] sha;
     logic[31:0] spa, tpa;
+    logic[15:0] id, seq;
+    logic[127:0] time;
     always_ff @(posedge clk) begin
 
         // latch the arp data from the event
@@ -54,6 +57,7 @@ module eth_tx #(
             tpa <= ping_tpa;
             id  <= ping_id;
             seq <= ping_seq;
+            ts  <= ping_ts;
         end
 
     end

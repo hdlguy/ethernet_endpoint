@@ -35,10 +35,12 @@ ICMP [34:97]
 
 
 /* ping reply to above
+Ethernet frame [0:13]
 00 d8 61 59 63 7a - linux workstation 00:d8:61:59:63:7a
 30 05 5c 22 58 43 - printer
 08 00 - type = ethertype
 
+IP Header [14:33]
 45 - version, header length
 00 - congestion
 00 54 - total length
@@ -50,6 +52,7 @@ ff - TTL
 c0 a8 01 70 - printer IP
 c0 a8 01 c5 - workstation IP
 
+ICMP [34:97]
 00 - echo reply
 00 - code
 2c 5b - checksum
