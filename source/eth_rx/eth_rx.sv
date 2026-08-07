@@ -22,12 +22,13 @@ module eth_rx #(
     // parsed PING request - one-beat handoff per matching frame
     output logic        ping_tvalid,
     input  logic        ping_tready,
-    output logic[47:0]  ping_sha,
-    output logic[31:0]  ping_spa,
-    output logic[31:0]  ping_tpa,    
-    output logic[15:0]  ping_id,
-    output logic[15:0]  ping_seq,    
-    output logic[127:0] ping_ts,
+    output ping_struct  ping_tdata,
+//    output logic[47:0]  ping_sha,
+//    output logic[31:0]  ping_spa,
+//    output logic[31:0]  ping_tpa,    
+//    output logic[15:0]  ping_id,
+//    output logic[15:0]  ping_seq,    
+//    output logic[127:0] ping_ts,
     // ipv4 payload passthrough (Ethernet header stripped)
     output logic        ipv4_tvalid,
     input  logic        ipv4_tready,
@@ -145,13 +146,19 @@ module eth_rx #(
     always_ff @(posedge clk) begin   
         // latch out ping data and assert tvalid
         if ((dv_in) && (rx_tlast) && (ping_cmp)) begin
-                ping_tvalid_int <= 1;        
-                ping_sha <= src_mac;
-                ping_spa <= ip_src_ip;
-                ping_tpa <= ip_dest_ip;            
-                ping_id  <= icmp_id;
-                ping_seq <= icmp_seq;
-                ping_ts  <= icmp_ts;
+                ping_tvalid_int <= 1; 
+                ping_tdata.sha <= src_mac;
+                ping_tdata.spa <= ip_src_ip;
+                ping_tdata.tpa <= ip_dest_ip;            
+                ping_tdata.id  <= icmp_id;
+                ping_tdata.seq <= icmp_seq;
+                ping_tdata.ts  <= icmp_ts;  
+//                ping_sha <= src_mac;
+//                ping_spa <= ip_src_ip;
+//                ping_tpa <= ip_dest_ip;            
+//                ping_id  <= icmp_id;
+//                ping_seq <= icmp_seq;
+//                ping_ts  <= icmp_ts;
         end
         
         if (ping_tready) ping_tvalid_int <= 0;

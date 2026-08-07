@@ -13,14 +13,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="14.126228 us"></ZoomEndTime>
-      <Cursor1Time time="3.000000 us"></Cursor1Time>
+      <ZoomEndTime time="15.295134 us"></ZoomEndTime>
+      <Cursor1Time time="0.000000 us"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="272"></NameColumnWidth>
+      <NameColumnWidth column_width="268"></NameColumnWidth>
       <ValueColumnWidth column_width="60"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="70" />
+   <WVObjectSize size="65" />
    <wvobject type="logic" fp_name="/eth_rx_tb/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
@@ -77,6 +77,18 @@
          <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
+      <wvobject type="array" fp_name="/eth_rx_tb/arp_tdata.sha">
+         <obj_property name="ElementShortName">.sha[47:0]</obj_property>
+         <obj_property name="ObjectShortName">.sha[47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/eth_rx_tb/arp_tdata.spa">
+         <obj_property name="ElementShortName">.spa[31:0]</obj_property>
+         <obj_property name="ObjectShortName">.spa[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/eth_rx_tb/arp_tdata.tpa">
+         <obj_property name="ElementShortName">.tpa[31:0]</obj_property>
+         <obj_property name="ObjectShortName">.tpa[31:0]</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject type="logic" fp_name="/eth_rx_tb/ping_tvalid">
       <obj_property name="ElementShortName">ping_tvalid</obj_property>
@@ -90,41 +102,48 @@
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/eth_rx_tb/ping_sha">
-      <obj_property name="ElementShortName">ping_sha[47:0]</obj_property>
-      <obj_property name="ObjectShortName">ping_sha[47:0]</obj_property>
+   <wvobject type="array" fp_name="/eth_rx_tb/ping_tdata">
+      <obj_property name="ElementShortName">ping_tdata</obj_property>
+      <obj_property name="ObjectShortName">ping_tdata</obj_property>
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/eth_rx_tb/ping_spa">
-      <obj_property name="ElementShortName">ping_spa[31:0]</obj_property>
-      <obj_property name="ObjectShortName">ping_spa[31:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/eth_rx_tb/ping_tpa">
-      <obj_property name="ElementShortName">ping_tpa[31:0]</obj_property>
-      <obj_property name="ObjectShortName">ping_tpa[31:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/eth_rx_tb/ping_id">
-      <obj_property name="ElementShortName">ping_id[15:0]</obj_property>
-      <obj_property name="ObjectShortName">ping_id[15:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/eth_rx_tb/ping_seq">
-      <obj_property name="ElementShortName">ping_seq[15:0]</obj_property>
-      <obj_property name="ObjectShortName">ping_seq[15:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/eth_rx_tb/ping_ts">
-      <obj_property name="ElementShortName">ping_ts[127:0]</obj_property>
-      <obj_property name="ObjectShortName">ping_ts[127:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/eth_rx_tb/ping_tdata.sha">
+         <obj_property name="ElementShortName">.sha[47:0]</obj_property>
+         <obj_property name="ObjectShortName">.sha[47:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/eth_rx_tb/ping_tdata.spa">
+         <obj_property name="ElementShortName">.spa[31:0]</obj_property>
+         <obj_property name="ObjectShortName">.spa[31:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/eth_rx_tb/ping_tdata.tpa">
+         <obj_property name="ElementShortName">.tpa[31:0]</obj_property>
+         <obj_property name="ObjectShortName">.tpa[31:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/eth_rx_tb/ping_tdata.id">
+         <obj_property name="ElementShortName">.id[15:0]</obj_property>
+         <obj_property name="ObjectShortName">.id[15:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/eth_rx_tb/ping_tdata.seq">
+         <obj_property name="ElementShortName">.seq[15:0]</obj_property>
+         <obj_property name="ObjectShortName">.seq[15:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/eth_rx_tb/ping_tdata.ts">
+         <obj_property name="ElementShortName">.ts[127:0]</obj_property>
+         <obj_property name="ObjectShortName">.ts[127:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject type="logic" fp_name="/eth_rx_tb/ipv4_tvalid">
       <obj_property name="ElementShortName">ipv4_tvalid</obj_property>
