@@ -1,7 +1,7 @@
 // endpoint.sv - this is the complete ethernet endpoint incorporating
 // ARP, Ping, and UDP protocols.
 
-//import ethernet_types_pkg::*;
+import ethernet_types_pkg::*;
 
 module endpoint #(
     parameter logic[47:0] local_mac = {8'h00, 8'h0A, 8'h35, 8'h01, 8'h02, 8'h03}, // a Xilinx mac
@@ -77,11 +77,13 @@ module endpoint #(
     );
 
     logic ping_tvalid, ping_tready;
-    logic[47:0] ping_sha;
-    logic[31:0]  ping_tpa, ping_spa;
+    ping_struct ping_tdata;
+    //logic[47:0] ping_sha;
+    //logic[31:0]  ping_tpa, ping_spa;
     logic arp_tvalid, arp_tready;
-    logic[47:0] arp_sha;
-    logic[31:0] arp_spa, arp_tpa;
+    arp_struct arp_tdata;
+    //logic[47:0] arp_sha;
+    //logic[31:0] arp_spa, arp_tpa;
     logic ipv4_rx_tvalid, ipv4_rx_tready, ipv4_rx_tlast;
     logic[7:0] ipv4_rx_tdata;
 
@@ -98,15 +100,17 @@ module endpoint #(
         // arp data received
         .arp_tvalid     (arp_tvalid),
         .arp_tready     (arp_tready),
-        .arp_sha        (arp_sha),
-        .arp_spa        (arp_spa),
-        .arp_tpa        (arp_tpa),
+        .arp_tdata      (arp_tdata),
+        //.arp_sha        (arp_sha),
+        //.arp_spa        (arp_spa),
+        //.arp_tpa        (arp_tpa),
         // ping data received
         .ping_tvalid     (ping_tvalid),
         .ping_tready     (ping_tready),
-        .ping_sha        (ping_sha),
-        .ping_spa        (ping_spa),
-        .ping_tpa        (ping_tpa),
+        .ping_tdata      (ping_tdata),
+        //.ping_sha        (ping_sha),
+        //.ping_spa        (ping_spa),
+        //.ping_tpa        (ping_tpa),
         // ipv4 data received
         .ipv4_tvalid    (ipv4_rx_tvalid),
         .ipv4_tready    (ipv4_rx_tready),
@@ -116,7 +120,7 @@ module endpoint #(
 
     // temporary
     assign ipv4_rx_tready = 1;
-    always_ff @(posedge user_clk) ping_tready = ping_tvalid;
+    //always_ff @(posedge user_clk) ping_tready = ping_tvalid;
 
     // tx packet multiplexor
     logic ipv4_tx_tvalid, ipv4_tx_tready, ipv4_tx_tlast;
@@ -128,9 +132,14 @@ module endpoint #(
         // arp data
         .arp_tvalid     (arp_tvalid),
         .arp_tready     (arp_tready),
-        .arp_sha        (arp_sha),
-        .arp_spa        (arp_spa),
-        .arp_tpa        (arp_tpa),
+        .arp_tdata      (arp_tdata),
+        //.arp_sha        (arp_sha),
+        //.arp_spa        (arp_spa),
+        //.arp_tpa        (arp_tpa),
+        // ping data
+        .ping_tvalid     (ping_tvalid),
+        .ping_tready     (ping_tready),
+        .ping_tdata      (ping_tdata),
         // ipv4 data for transmit
         .ipv4_tvalid    (ipv4_tx_tvalid),
         .ipv4_tready    (ipv4_tx_tready),
